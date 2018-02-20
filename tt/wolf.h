@@ -22,20 +22,21 @@
 
 # define FOV			60
 # define FOV_H			30
-# define P_FOV			1.0471975
-# define P_FOV_H		0.5235987
+// # define P_FOV			1.0471975
+// # define P_FOV_H		0.5235987
 
 # define RED			0xff0000
 # define GREEN			0x00ff00
 # define BLUE			0x0000ff
 # define YELLOW			0xffff00
 # define WHITE			0xffffff
-# define DARKRED		0xab0000
-# define DARKGREEN		0x00ab00
-# define DARKBLUE		0x0000ab
+# define DARKRED		0x7b0000
+# define DARKGREEN		0x007b00
+# define DARKBLUE		0x00007b
 # define DARKYELLOW		0xabab00
 # define GREY			0xababab
 # define DARKGREY		0x6b6b6b
+# define DULLGREY		0x333333
 
 # define DTR(x)			((double)x * (M_PI / 180))
 # define ABS(a)			((a) < 0 ? -(a) : (a))
@@ -54,7 +55,8 @@ typedef struct	s_dpt
 
 typedef struct	s_player
 {
-	t_dpt		pos;
+	t_ipt		pos;
+	t_ipt 		d_move;
 	t_dpt		dir;
 	double		movespd;
 	double		turnspd;
@@ -87,12 +89,14 @@ typedef struct	s_mlx
 
 typedef struct	s_ray
 {
-	t_dpt		start;
+	t_ipt		start;
 	t_dpt		dir;
 	t_dpt		endx;
 	t_dpt		endy;
 	t_dpt		len;
-	double		d_dir;
+	double		angle;
+	double		d_angle;
+	double		distortion;
 }				t_ray;
 
 #endif

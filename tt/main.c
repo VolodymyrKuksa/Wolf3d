@@ -36,19 +36,19 @@ int		img_coord(int y, int x)
 
 void	map_init(void)
 {
-	map.width = 10;
-	map.height = 7;
+	map.width = 25;
+	map.height = 25;
 	map.arr = (int*)malloc(sizeof(int*) * map.height * map.width);
 	for (int i = 0; i < map.height; i++)
 	{
 		for (int j = 0; j < map.width; j++)
 		{
 			map.arr[map_coord(i, j)] = 0;
-			if (i == 0 || i == map.height - 1 || j == 0 || j == map.width - 1)
+			if (i == 0 || i == map.height - 1 || j == 0 || j == map.width - 1 || i == 2 * j)
 				map.arr[map_coord(i, j)] = 1;
-			if (i >= 2 && i <= 4 && j == 2)
+			if (i >= 2 && i <= 5 && j == 2)
 				map.arr[map_coord(i, j)] = 1;
-			if (i != 3 && j == 6)
+			if (i != 4 && j == 6)
 				map.arr[map_coord(i, j)] = 1;
 		}
 	}
@@ -60,8 +60,10 @@ void	player_init(void)
 	player.pos.y = (double)map.height / 2 * TS;
 	player.dir.x = 1;
 	player.dir.y = 0;
-	player.movespd = 5;
-	player.turnspd = 3;
+	player.movespd = 10;
+	player.turnspd = 5;
+	player.d_move.x = player.movespd * player.dir.x;
+	player.d_move.y = player.movespd * player.dir.y;
 }
 
 void	image_init(void)
@@ -87,12 +89,13 @@ void	rotate(double d, t_dpt *pt)
 	pt->y = tmp.y * cos(DTR(d)) + tmp.x * sin(DTR(d));
 }
 
-void	move_player(double d)
+void	move_player(int d)
 {
 	t_dpt	tmp;
 
-	tmp.x = player.pos.x + player.dir.x * d;
-	tmp.y = player.pos.y + player.dir.y * d;
+	tmp.x = player.pos.x + player.d_move.x * d;
+	tmp.y = player.pos.y + player.d_move.y * d;
+
 	// if (tmp.x > -WNDW_H + 40 && tmp.x < WNDW_H - 40)
 		player.pos.x = tmp.x;
 	// if (tmp.y > -WNDH_H + 40 && tmp.y < WNDH_H - 40)
@@ -110,57 +113,10 @@ void	clear_image(t_image *img)
 		img->addr[i] = 0;
 }
 
-void	draw_player(void)
-{
-	t_image		*p;
-
-	p = mlx.img;
-	p->addr[img_coord(WNDH_H / 2 + player.pos.y, WNDW_H / 2 + player.pos.x)] = WHITE;
-	p->addr[img_coord(WNDH_H / 2 + player.pos.y + 40 * player.dir.y, WNDW_H / 2 + player.pos.x + 40 * player.dir.x)] = RED;
-	mlx_put_image_to_window(mlx.mlx, mlx.wnd, mlx.img->img, 0, 0);
-}
-
-// int		intersect(int h, t_ray r)
-// {
-// 	int 	x;
-// 	int 	y;
-// 	int		a;
-// 	int		b;
-
-// 	if (h)
-// 	{
-// 		y = (int)(r.endx.y - r.dir.y) / TS;
-// 		x = (int)(r.endx.x - r.dir.x) / TS;
-// 		// printf("0: x == %d; y == %d;\n", x, y);
-// 		a = (int)(r.endx.y + r.dir.y) / TS;
-// 		b = (int)(r.endx.x + r.dir.x) / TS;
-// 		// printf("1: x == %d; y == %d;\n", x, y);
-// 	}
-// 	else
-// 	{
-// 		y = (int)(r.endy.y - r.dir.y) / TS;
-// 		x = (int)(r.endy.x - r.dir.x) / TS;
-// 		a = (int)(r.endy.y + r.dir.y) / TS;
-// 		b = (int)(r.endy.x + r.dir.x) / TS;
-// 	}
-// 	if (y < 0 || x < 0 || a < 0 || b < 0)
-// 		return (1);
-// 	if (map.arr[map_coord(y, x)] != map.arr[map_coord(a, b)])
-// 		return (1);
-// 	return (0);
-// }
-
-
-
-
-
-
-
-
 int		intersect(int h, t_ray r)
 {
-	int 	x;
-	int 	y;
+	int		x;
+	int		y;
 
 	if (h)
 	{
@@ -176,26 +132,6 @@ int		intersect(int h, t_ray r)
 		return (1);
 	return (map.arr[map_coord(y, x)]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void	find_len_x(t_ray *r)
 {
@@ -215,15 +151,12 @@ void	find_len_x(t_ray *r)
 		r->endx.x += dx;
 		r->endx.y += dy;
 	}
-
-
-
-
 	dx = r->endx.x - r->start.x;
 	dy = r->endx.y - r->start.y;
 	r->len.x = sqrt(dx * dx + dy * dy);
 	if (r->endx.y < 0 || r->endx.y > map.height * TS)
 		r->len.x = -1;
+	r->len.x *= r->distortion;
 }
 
 void	find_len_y(t_ray *r)
@@ -238,27 +171,23 @@ void	find_len_y(t_ray *r)
 	r->endy.y = r->start.y + dy;
 	dy = (r->dir.y > 0 ? TS : -TS);
 	dx = dy / r->dir.y * r->dir.x;
-
 	i = -1;
 	while (++i < 100 && !intersect(0, *r))
 	{
 		r->endy.x += dx;
 		r->endy.y += dy;
 	}
-
-
 	dx = r->endy.x - r->start.x;
 	dy = r->endy.y - r->start.y;
 	r->len.y = sqrt(dx * dx + dy * dy);
-	// printf("r->len.x == %f\n", r->len.x);
 	if (r->endy.x < 0 || r->endy.x > map.width * TS)
 		r->len.y = -1;
-	// printf("r->len.y == %f\n", r->len.y);
-	// printf("r->endy.x == %f; r->endy.y == %f;\n", r->endy.x, r->endy.y);
+	r->len.y *= r->distortion;
 }
 
 void	cast(t_ray *r)
 {
+	r->distortion = cos(DTR(r->angle));
 	if (r->dir.x)
 		find_len_x(r);
 	if (r->dir.y)
@@ -277,9 +206,9 @@ void	draw_wall(int j, double dist, int col)
 	while (++i < WNDH)
 	{
 		if (i < WNDH_H - height / 2)
-			p->addr[img_coord(i, j)] = GREY;
-		else if (i > WNDH_H + height / 2)
 			p->addr[img_coord(i, j)] = DARKGREY;
+		else if (i > WNDH_H + height / 2)
+			p->addr[img_coord(i, j)] = DULLGREY;
 		else
 			p->addr[img_coord(i, j)] = col;
 	}
@@ -297,50 +226,41 @@ void	render(void)
 	r.start.y = player.pos.y;
 	r.dir.x = player.dir.x;
 	r.dir.y = player.dir.y;
-	r.d_dir = (double)FOV / WNDW;
+	r.d_angle = (double)FOV / WNDW;
+	r.angle = -30;
 	rotate(-30, &r.dir);
-	for (int i = 0; i <= map.height * TS; i++)
-	{
-		for (int j = 0; j <= map.width * TS; j++)
-		{
-			if (i % TS == 0 || j % TS == 0)
-				p->addr[img_coord(WNDH_H / 2 + i, WNDW_H / 2 + j)] = 0;
-		}
-	}
 	i = -1;
 	while (++i < WNDW)
 	{
 		cast(&r);
-		// p->addr[img_coord(WNDH_H + r.start.y + 30 * r.dir.y, WNDW_H + r.start.x + 30 * r.dir.x)] = GREEN;
-		// if (r.len.x > 0)
-		// 	p->addr[img_coord(WNDH_H / 2 + r.endx.y, WNDW_H / 2 + r.endx.x)] = GREEN;
-		// if (r.len.y > 0)
-		// 	p->addr[img_coord(WNDH_H / 2 + r.endy.y, WNDW_H / 2 + r.endy.x)] = BLUE;
 		if ((r.len.x < r.len.y && r.len.x > 0) || (r.len.x > 0 && r.len.y < 0))
-		{
-			// draw_wall(i, r.len.x, DARKBLUE);
-			p->addr[img_coord(WNDH_H / 2 + r.endx.y, WNDW_H / 2 + r.endx.x)] = YELLOW;
-		}
+			draw_wall(i, r.len.x, DARKBLUE);
 		else if (r.len.y > 0)
-		{
-			// draw_wall(i, r.len.y, DARKRED);
-			p->addr[img_coord(WNDH_H / 2 + r.endy.y, WNDW_H / 2 + r.endy.x)] = YELLOW;
-		}
-		rotate(r.d_dir, &r.dir);
+			draw_wall(i, r.len.y, DARKRED);
+		r.angle += r.d_angle;
+		rotate(r.d_angle, &r.dir);
 	}
-	draw_player();
+	mlx_put_image_to_window(mlx.mlx, mlx.wnd, mlx.img->img, 0, 0);
 }
 
 int		key_input(int key, void *null)
 {
 	if (key == R_ARROW)
+	{
 		rotate(player.turnspd, &player.dir);
+		player.d_move.x = player.movespd * player.dir.x;
+		player.d_move.y = player.movespd * player.dir.y;
+	}
 	else if (key == L_ARROW)
+	{
 		rotate(-player.turnspd, &player.dir);
+		player.d_move.x = player.movespd * player.dir.x;
+		player.d_move.y = player.movespd * player.dir.y;
+	}
 	else if (key == U_ARROW)
-		move_player(player.movespd);
+		move_player(1);
 	else if (key == D_ARROW)
-		move_player(-player.movespd);
+		move_player(-1);
 	else
 		return (0);
 	render();
