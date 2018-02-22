@@ -24,18 +24,22 @@
 # define FOV			60
 # define FOV_H			30
 
+# define TEX_COUNT		7
+
 # define RED			0xff0000
 # define GREEN			0x00ff00
 # define BLUE			0x0000ff
 # define YELLOW			0xffff00
 # define WHITE			0xffffff
 # define DARKRED		0x7b0000
+# define DULLRED		0x4b0000
 # define DARKGREEN		0x007b00
 # define DARKBLUE		0x00007b
+# define DULLBLUE		0x00004b
 # define DARKYELLOW		0xabab00
 # define GREY			0xababab
-# define DARKGREY		0x6b6b6b
-# define DULLGREY		0x333333
+# define DARKGREY		0x545454
+# define DULLGREY		0x383838
 # define MENU_BACK		0x0e4038
 
 # define DTR(x)			((double)x * (M_PI / 180))
@@ -93,7 +97,20 @@ typedef struct	s_ray
 	double		angle;
 	double		d_angle;
 	double		distortion;
+	t_ipt		tex_id;
+	t_ipt		tex_row;
 }				t_ray;
+
+typedef struct	s_keys
+{
+	int			u_arrow;
+	int			d_arrow;
+	int			l_arrow;
+	int			r_arrow;
+	int			enter;
+	int			sp;
+	int			esc;
+}				t_keys;
 
 typedef struct	s_mlx
 {
@@ -105,22 +122,26 @@ typedef struct	s_mlx
 	int			mapcount;
 	t_player	*pl;
 	t_ray		r;
+	t_keys		keys;
+
+	t_image		*textures;
 
 	int			menu;
 }				t_mlx;
-
-// typedef struct	s_thread
-// {
-// 	t_mlx		*mlx;
-// 	t_ray		r;
-// 	int			s;
-// }				t_thread;
 
 /*
 **	main
 */
 
 void			put_error(char *str);
+
+/*
+**	keyboard_input
+*/
+
+int				key_down(int key, void *data);
+int				key_up(int key, void *data);
+int				check_update(void *data);
 
 /*
 **	read_map
@@ -153,6 +174,12 @@ void			reset_player(t_mlx *mlx);
 void			output(t_mlx *mlx);
 
 /*
+**	update
+*/
+
+int				update(void *data);
+
+/*
 **	image_utils
 */
 
@@ -172,7 +199,9 @@ void			draw_world(t_mlx *mlx);
 **	render_utils
 */
 
-void			draw_wall(int j, double dist, int col, t_image *p);
+void			draw_wall_x(int j, t_ray *r, t_image *p, t_image *t);
+void			draw_wall_y(int j, t_ray *r, t_image *p, t_image *t);
+// void			draw_wall(int j, double dist, int col, t_image *p);
 int				intersect(int h, t_ray r, t_map *map);
 
 /*
@@ -180,5 +209,11 @@ int				intersect(int h, t_ray r, t_map *map);
 */
 
 int				grad(int bc, int ec, int step);
+
+/*
+**	load_textures
+*/
+
+t_image		*load_textures(t_mlx *m);
 
 #endif

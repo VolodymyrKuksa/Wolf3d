@@ -12,7 +12,6 @@
 
 #include "wolf.h"
 #include "mlx.h"
-// #include <pthread.h>
 #include <math.h>
 #include <stdio.h>//
 
@@ -40,6 +39,8 @@ void	find_len_x(t_ray *r, t_map *map)
 	if (r->endx.y < 0 || r->endx.y > map->height * TS)
 		r->len.x = -1;
 	r->len.x *= r->distortion;
+	r->tex_id.x = intersect(1, *r, map);
+	r->tex_row.x = (int)(r->endx.y + 0.5) % TS;
 }
 
 void	find_len_y(t_ray *r, t_map *map)
@@ -66,6 +67,8 @@ void	find_len_y(t_ray *r, t_map *map)
 	if (r->endy.x < 0 || r->endy.x > map->width * TS)
 		r->len.y = -1;
 	r->len.y *= r->distortion;
+	r->tex_id.y = intersect(0, *r, map);
+	r->tex_row.y = (int)(r->endy.x + 0.5) % TS;
 }
 
 void	cast(t_ray *r, t_map *map)
@@ -87,9 +90,9 @@ void	render(t_mlx *mlx, t_ray r)
 	{
 		cast(&r, mlx->map);
 		if ((r.len.x < r.len.y && r.len.x > 0) || (r.len.x > 0 && r.len.y < 0))
-			draw_wall(i, r.len.x, DARKBLUE, mlx->img);
+			draw_wall_x(i, &r, mlx->img, &mlx->textures[r.tex_id.x]);
 		else if (r.len.y > 0)
-			draw_wall(i, r.len.y, DARKRED, mlx->img);
+			draw_wall_y(i, &r, mlx->img, &mlx->textures[r.tex_id.y]);
 		r.angle += r.d_angle;
 		rotate(r.d_angle, &r.dir);
 	}
@@ -107,61 +110,3 @@ void	draw_world(t_mlx *mlx)
 	r.angle = -FOV_H;
 	render(mlx, r);
 }
-
-// void	*render(void *t)
-// {
-// 	t_mlx	*mlx;
-// 	t_ray	r;
-// 	int		i;
-
-// 	mlx = ((t_thread*)t)->mlx;
-// 	r = ((t_thread*)t)->r;
-// 	rotate(r.angle, &r.dir);
-// 	i = -1;
-// 	while (++i < WNDW_Q)
-// 	{
-// 		cast(&r, mlx->map);
-// 		if ((r.len.x < r.len.y && r.len.x > 0) || (r.len.x > 0 && r.len.y < 0))
-// 		{
-// 			printf("yo1\n");
-// 			draw_wall(((t_thread*)t)->s + i, r.len.x, DARKBLUE, mlx->img);
-// 		}
-// 		else if (r.len.y > 0)
-// 		{
-// 			printf("yo2\n");
-// 			draw_wall(((t_thread*)t)->s + i, r.len.y, DARKRED, mlx->img);
-// 		}
-// 		r.angle += r.d_angle;
-// 		rotate(r.d_angle, &r.dir);
-// 	}
-// 	pthread_exit(0);
-// }
-
-// void	draw_world(t_mlx *mlx)
-// {
-// 	pthread_t	tid[4];
-// 	t_thread	trd[4];
-// 	int			angle;
-// 	int			i;
-// 	int			s;
-
-// 	angle = -30;
-// 	s = 0;
-// 	i = -1;
-// 	while (++i < 4)
-// 	{
-// 		trd[i].mlx = mlx;
-// 		trd[i].r.start.x = mlx->pl->pos.x;
-// 		trd[i].r.start.y = mlx->pl->pos.y;
-// 		trd[i].r.dir.x = mlx->pl->dir.x;
-// 		trd[i].r.dir.y = mlx->pl->dir.y;
-// 		trd[i].r.d_angle = (double)FOV / WNDW;
-// 		trd[i].r.angle = angle;
-// 		trd[i].s = s;
-// 		s += WNDW_Q;
-// 		angle += 15;
-// 		pthread_create(&tid[i], NULL, render, &trd[i]);
-// 	}
-// 	while (--i >= 0)
-// 		pthread_join(tid[i], NULL);
-// }

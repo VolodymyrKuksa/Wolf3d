@@ -22,6 +22,17 @@ void	put_error(char *str)
 	exit(1);
 }
 
+void	initialise_keys(t_mlx *mlx)
+{
+	mlx->keys.u_arrow = 0;
+	mlx->keys.d_arrow = 0;
+	mlx->keys.l_arrow = 0;
+	mlx->keys.r_arrow = 0;
+	mlx->keys.enter = 0;
+	mlx->keys.sp = 0;
+	mlx->keys.esc = 0;
+}
+
 void	initialise_mlx(t_mlx *mlx, int ac)
 {
 	t_image		*m;
@@ -39,12 +50,13 @@ void	initialise_mlx(t_mlx *mlx, int ac)
 	mlx->img = m;
 	if (!(p = (t_player*)malloc(sizeof(t_player))))
 		put_error("initialise_mlx");
-	p->movespd = 10.0;
-	p->turnspd = 5.0;
+	p->movespd = 5.0;
+	p->turnspd = 2.5;
 	mlx->pl = p;
 	mlx->mapcount = ac - 1;
 	mlx->menu = 0;
 	mlx->map = mlx->allmaps[0];
+	mlx->textures = load_textures(mlx);
 }
 
 int		main(int ac, char **av)
@@ -61,7 +73,10 @@ int		main(int ac, char **av)
 		put_error("main");
 	mlx->allmaps = read_maps(ac, av);
 	initialise_mlx(mlx, ac);
-	output(mlx);
+	mlx_do_key_autorepeatoff(mlx->mlx);
+	mlx_hook(mlx->wnd, 2, 1L << 0, key_down, mlx);
+	mlx_hook(mlx->wnd, 3, 1L << 1, key_up, mlx);
+	mlx_loop_hook(mlx->mlx, update, mlx);
 	mlx_loop(mlx->mlx);
 	return (0);
 }

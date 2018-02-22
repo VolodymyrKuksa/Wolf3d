@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 #include "mlx.h"
-#include <stdio.h>//
+#include <stdlib.h>
 
 void	display_menu(t_mlx *mlx)
 {
@@ -47,6 +47,7 @@ void	output(t_mlx *mlx)
 			s_map = mlx->map;
 		}
 		draw_world(mlx);
+		mlx_clear_window(mlx->mlx, mlx->wnd);
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
 	}
 }
