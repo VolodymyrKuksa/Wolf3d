@@ -13,7 +13,6 @@
 #include "wolf.h"
 #include "mlx.h"
 #include <math.h>
-#include <stdio.h>//
 
 void	find_len_x(t_ray *r, t_map *map)
 {
@@ -89,9 +88,9 @@ void	render(t_mlx *mlx, t_ray r)
 	while (++i < WNDW)
 	{
 		cast(&r, mlx->map);
-		if ((r.len.x < r.len.y && r.len.x > 0) || (r.len.x > 0 && r.len.y < 0))
+		if ((r.len.x < r.len.y && r.len.x > 3) || (r.len.x > 3 && r.len.y < 3))
 			draw_wall_x(i, &r, mlx->img, &mlx->textures[r.tex_id.x]);
-		else if (r.len.y > 0)
+		else if (r.len.y > 3)
 			draw_wall_y(i, &r, mlx->img, &mlx->textures[r.tex_id.y]);
 		r.angle += r.d_angle;
 		rotate(r.d_angle, &r.dir);

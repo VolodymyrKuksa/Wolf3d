@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "wolf.h"
 #include <math.h>
+#include <stdio.h>
 
 void	rotate(double d, t_dpt *pt)
 {

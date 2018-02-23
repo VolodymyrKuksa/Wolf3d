@@ -13,6 +13,19 @@
 #include "wolf.h"
 #include "mlx.h"
 #include <stdlib.h>
+#include <time.h>
+#include <stdio.h>//
+
+void	timeframe(void)
+{
+	static clock_t	prev_frame = 0;
+	clock_t			t;
+
+	t = clock();
+	while(t - prev_frame < 5000)
+		t = clock();
+	prev_frame = clock();
+}
 
 void	display_menu(t_mlx *mlx)
 {
@@ -48,6 +61,7 @@ void	output(t_mlx *mlx)
 		}
 		draw_world(mlx);
 		mlx_clear_window(mlx->mlx, mlx->wnd);
+		timeframe();
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
 	}
 }

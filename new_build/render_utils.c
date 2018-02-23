@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <stdio.h>
 
 int		intersect(int h, t_ray r, t_map *map)
 {
@@ -28,7 +27,7 @@ int		intersect(int h, t_ray r, t_map *map)
 		y = (int)(r.endy.y + (r.dir.y > 0 ? 1 : -1)) / TS;
 		x = (int)(r.endy.x) / TS;
 	}
-	if (y < 0 || x < 0)
+	if (y < 0 || x < 0 || y >= map->height || x >= map->width)
 		return (1);
 	return (map->arr[map_coord(x, y, map)]);
 }
@@ -46,12 +45,9 @@ int		darken(int len)
 {
 	int		alpha;
 
-	if (len < 150)
-		return (0);
-	else if (len > 1150)
-		return (0xdd000000);
-	len -= 150;
-	alpha = len * 0xde / 2000;
+	alpha = len * 227.0 / 1500;
+	if (alpha > 227)
+		return (0xe3000000);
 	return (alpha << 24);
 }
 
@@ -61,12 +57,13 @@ void	draw_wall_x(int j, t_ray *r, t_image *p, t_image *t)
 	int			i;
 	double		ty;
 	double		d_ty;
+	int			dark;
 
 	ty = 0;
 	height = (double)TS / r->len.x * PPD + 0.5;
 	d_ty = (double)TS / height;
+	dark = darken(r->len.x);
 	i = WNDH_H - height / 2 - 1;
-
 	if (i > 0)
 		draw_ceiling(i, j, p);
 	while (++i < WNDH)
@@ -76,7 +73,7 @@ void	draw_wall_x(int j, t_ray *r, t_image *p, t_image *t)
 		if (i > 0 && i < WNDH_H + height / 2)
 		{
 			p->addr[img_coord(j, i, p)] =
-			t->addr[img_coord(r->tex_row.x, (int)ty, t)] + darken(r->len.x);
+			t->addr[img_coord(r->tex_row.x, (int)ty, t)] + dark;
 		}
 		ty += d_ty;
 	}
@@ -88,12 +85,13 @@ void	draw_wall_y(int j, t_ray *r, t_image *p, t_image *t)
 	int			i;
 	double		ty;
 	double		d_ty;
+	int			dark;
 
 	ty = 0;
 	height = (double)TS / r->len.y * PPD + 0.5;
 	d_ty = (double)TS / height;
+	dark = darken(r->len.y);
 	i = WNDH_H - height / 2 - 1;
-
 	if (i > 0)
 		draw_ceiling(i, j, p);
 	while (++i < WNDH)
@@ -103,35 +101,8 @@ void	draw_wall_y(int j, t_ray *r, t_image *p, t_image *t)
 		if (i > 0 && i < WNDH_H + height / 2)
 		{
 			p->addr[img_coord(j, i, p)] =
-			t->addr[img_coord(r->tex_row.y, (int)ty, t)]  + darken(r->len.y);
+			t->addr[img_coord(r->tex_row.y, (int)ty, t)] + dark;
 		}
 		ty += d_ty;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-// void	draw_wall(int j, double dist, int col, t_image *p)
-// {
-// 	int			height;
-// 	int			i;
-
-// 	height = (double)TS / dist * PPD + 0.5;
-// 	i = -1;
-// 	while (++i < WNDH)
-// 	{
-// 		if (i < WNDH_H - height / 2)
-// 			p->addr[img_coord(j, i, p)] = DARKGREY;
-// 		else if (i > WNDH_H + height / 2)
-// 			p->addr[img_coord(j, i, p)] = DULLGREY;
-// 		else
-// 			p->addr[img_coord(j, i, p)] = col;
-// 	}
-// }
