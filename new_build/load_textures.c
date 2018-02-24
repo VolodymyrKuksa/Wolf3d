@@ -46,6 +46,8 @@ t_image		*load_textures(t_mlx *m)
 	t[5].img = mlx_xpm_file_to_image(m->mlx, "./textures/r_brick.XPM", &w, &h);
 	t[6].img = mlx_xpm_file_to_image(m->mlx, "./textures/stone.XPM", &w, &h);
 	t[7].img = mlx_xpm_file_to_image(m->mlx, "./textures/wood.XPM", &w, &h);
+	t[8].img = mlx_xpm_file_to_image(m->mlx, "./textures/floor.XPM", &w, &h);
+	t[9].img = mlx_xpm_file_to_image(m->mlx, "./textures/concrete.XPM", &w, &h);
 	get_texture_data(t);
 	return (t);
 }

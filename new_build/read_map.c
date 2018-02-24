@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "get_next_line.h"
 #include <stdlib.h>
-#include <fcntl.h>
 
 /*
 **	map file format:
@@ -81,7 +80,7 @@ int		get_wall_row(t_map *m, int fd, int i)
 		if (j == 0 || j == m->width - 1)
 			id = 1;
 		else if (!sp[j - 1] || !is_all_digit(sp[j - 1])
-			|| (id = atoi(sp[j - 1])) < 0)
+			|| (id = atoi(sp[j - 1]) % (TEX_COUNT + 1)) < 0)
 			return (0);
 		m->arr[map_coord(j, i, m)] = id;
 	}
@@ -113,6 +112,25 @@ int		get_walls(t_map *m, int fd)
 	return (1);
 }
 
+int		get_floor(t_map *m, int fd)
+{
+	char	*line;
+	char	**sp;
+	int		gnlret;
+
+	gnlret = get_next_line(fd, &line);
+	if (!gnlret)
+		return (0);
+	sp = ft_strsplit(line, ' ');
+	free(line);
+	m->floor = ft_atoi(sp[0]) % (TEX_COUNT + 1);
+	m->ceiling = ft_atoi(sp[1]) % (TEX_COUNT + 1);
+	strclear2d(sp);
+	if (m->floor <= 0 || m->ceiling <= 0 || sp[2])
+		return (0);
+	return (1);
+}
+
 t_map	*get_map_data(int fd)
 {
 	t_map	*m;
@@ -120,7 +138,7 @@ t_map	*get_map_data(int fd)
 	m = NULL;
 	if (read(fd, NULL, 0) != 0 || !(m = (t_map*)malloc(sizeof(t_map))))
 		put_error("get_map_data");
-	if (!get_definition(m, fd) || !get_walls(m, fd))
+	if (!get_definition(m, fd) || !get_floor(m, fd) || !get_walls(m, fd))
 	{
 		clear_map(m);
 		return (NULL);
@@ -141,32 +159,3 @@ t_map	*get_map_data(int fd)
 **			printf("\n");
 **		}
 */
-
-t_map	**read_maps(int ac, char **av)
-{
-	int		fd[ac];
-	int		i;
-	t_map	**inp;
-
-	ac--;
-	av++;
-	if (!(inp = (t_map**)malloc(sizeof(t_map*) * (ac + 1))))
-		put_error("read_maps");
-	inp[ac] = NULL;
-	i = -1;
-	while (++i < ac)
-	{
-		fd[i] = open(av[i], O_RDONLY);
-		inp[i] = get_map_data(fd[i]);
-		if (!inp[i])
-		{
-			ft_putstr("Invalid map: ");
-			ft_putendl(av[i]);
-			exit(0);
-		}
-	}
-	i = -1;
-	while (++i < ac)
-		close(fd[i]);
-	return (inp);
-}

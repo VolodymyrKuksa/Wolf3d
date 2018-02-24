@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <stdio.h>//
 
 int		diagonal_collision_check(int x, int y, t_map *m)
 {
@@ -86,10 +85,13 @@ int		update(void *data)
 	t_mlx	*mlx;
 
 	mlx = (t_mlx*)data;
-	if (mlx->keys.l_arrow || mlx->keys.r_arrow)
-		turn_player(mlx->keys.l_arrow, mlx->pl);
-	if (mlx->keys.u_arrow || mlx->keys.d_arrow)
-		move_player((mlx->keys.u_arrow == 1 ? 1 : -1), mlx->pl, mlx->map);
+	if (!mlx->menu)
+	{
+		if (mlx->keys.l_arrow || mlx->keys.r_arrow)
+			turn_player(mlx->keys.l_arrow, mlx->pl);
+		if (mlx->keys.u_arrow || mlx->keys.d_arrow)
+			move_player((mlx->keys.u_arrow == 1 ? 1 : -1), mlx->pl, mlx->map);
+	}
 	output(mlx);
 	return (0);
 }

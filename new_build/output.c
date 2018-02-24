@@ -14,7 +14,6 @@
 #include "mlx.h"
 #include <stdlib.h>
 #include <time.h>
-#include <stdio.h>//
 
 void	timeframe(void)
 {
@@ -22,7 +21,7 @@ void	timeframe(void)
 	clock_t			t;
 
 	t = clock();
-	while(t - prev_frame < 5000)
+	while (t - prev_frame < 20000)
 		t = clock();
 	prev_frame = clock();
 }
@@ -59,8 +58,9 @@ void	output(t_mlx *mlx)
 			reset_player(mlx);
 			s_map = mlx->map;
 		}
-		draw_world(mlx);
 		mlx_clear_window(mlx->mlx, mlx->wnd);
+		fill_image(mlx->img, 0);
+		draw_world(mlx);
 		timeframe();
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
 	}

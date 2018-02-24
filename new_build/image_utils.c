@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <stdio.h>//
 
 int		img_coord(int x, int y, t_image *img)
 {

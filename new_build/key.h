@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef KEY_H
-#define KEY_H
+# define KEY_H
 
 # define R_ARROW	124
 # define L_ARROW	123
@@ -20,5 +20,6 @@
 # define ENTER		36
 # define SP			49
 # define ESC		53
+# define L_SHIFT	257
 
 #endif

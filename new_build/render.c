@@ -34,12 +34,13 @@ void	find_len_x(t_ray *r, t_map *map)
 	}
 	dx = r->endx.x - r->start.x;
 	dy = r->endx.y - r->start.y;
-	r->len.x = sqrt(dx * dx + dy * dy);
+	r->len.x = sqrt(dx * dx + dy * dy) * r->distortion;
 	if (r->endx.y < 0 || r->endx.y > map->height * TS)
 		r->len.x = -1;
-	r->len.x *= r->distortion;
 	r->tex_id.x = intersect(1, *r, map);
 	r->tex_row.x = (int)(r->endx.y + 0.5) % TS;
+	if (r->dir.x < 0)
+		r->tex_row.x = TS - 1 - r->tex_row.x;
 }
 
 void	find_len_y(t_ray *r, t_map *map)
@@ -62,12 +63,13 @@ void	find_len_y(t_ray *r, t_map *map)
 	}
 	dx = r->endy.x - r->start.x;
 	dy = r->endy.y - r->start.y;
-	r->len.y = sqrt(dx * dx + dy * dy);
+	r->len.y = sqrt(dx * dx + dy * dy) * r->distortion;
 	if (r->endy.x < 0 || r->endy.x > map->width * TS)
 		r->len.y = -1;
-	r->len.y *= r->distortion;
 	r->tex_id.y = intersect(0, *r, map);
 	r->tex_row.y = (int)(r->endy.x + 0.5) % TS;
+	if (r->dir.y > 0)
+		r->tex_row.y = TS - 1 - r->tex_row.y;
 }
 
 void	cast(t_ray *r, t_map *map)
@@ -88,6 +90,7 @@ void	render(t_mlx *mlx, t_ray r)
 	while (++i < WNDW)
 	{
 		cast(&r, mlx->map);
+		floor_cast(i, mlx, r);
 		if ((r.len.x < r.len.y && r.len.x > 3) || (r.len.x > 3 && r.len.y < 3))
 			draw_wall_x(i, &r, mlx->img, &mlx->textures[r.tex_id.x]);
 		else if (r.len.y > 3)

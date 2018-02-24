@@ -19,12 +19,13 @@
 # define WNDH			720
 # define WNDH_H			360
 # define TS				64
+# define TS_H			32
 # define PPD			930
 
 # define FOV			60
 # define FOV_H			30
 
-# define TEX_COUNT		7
+# define TEX_COUNT		9
 
 # define RED			0xff0000
 # define GREEN			0x00ff00
@@ -74,6 +75,8 @@ typedef struct	s_map
 	int			*arr;
 	t_ipt		p_pos;
 	t_dpt		p_dir;
+	int			floor;
+	int			ceiling;
 }				t_map;
 
 typedef struct	s_image
@@ -107,6 +110,7 @@ typedef struct	s_keys
 	int			d_arrow;
 	int			l_arrow;
 	int			r_arrow;
+	int			l_shift;
 	int			enter;
 	int			sp;
 	int			esc;
@@ -120,6 +124,7 @@ typedef struct	s_mlx
 	t_map		*map;
 	t_map		**allmaps;
 	int			mapcount;
+	int			mapid;
 	t_player	*pl;
 	t_ray		r;
 	t_keys		keys;
@@ -147,7 +152,7 @@ int				check_update(void *data);
 **	read_map
 */
 
-t_map			**read_maps(int ac, char **av);
+t_map			*get_map_data(int fd);
 
 /*
 **	map_utils
@@ -201,7 +206,7 @@ void			draw_world(t_mlx *mlx);
 
 void			draw_wall_x(int j, t_ray *r, t_image *p, t_image *t);
 void			draw_wall_y(int j, t_ray *r, t_image *p, t_image *t);
-// void			draw_wall(int j, double dist, int col, t_image *p);
+void			floor_cast(int j, t_mlx *mlx, t_ray r);
 int				intersect(int h, t_ray r, t_map *map);
 
 /*
@@ -214,6 +219,6 @@ int				grad(int bc, int ec, int step);
 **	load_textures
 */
 
-t_image		*load_textures(t_mlx *m);
+t_image			*load_textures(t_mlx *m);
 
 #endif

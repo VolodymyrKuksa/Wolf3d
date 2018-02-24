@@ -15,6 +15,7 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
 
 void	put_error(char *str)
 {
@@ -50,13 +51,43 @@ void	initialise_mlx(t_mlx *mlx, int ac)
 	mlx->img = m;
 	if (!(p = (t_player*)malloc(sizeof(t_player))))
 		put_error("initialise_mlx");
-	p->movespd = 5.0;
-	p->turnspd = 2.5;
+	p->movespd = 5.5;
+	p->turnspd = 3.0;
 	mlx->pl = p;
 	mlx->mapcount = ac - 1;
-	mlx->menu = 0;
-	mlx->map = mlx->allmaps[0];
+	mlx->menu = 1;
+	mlx->mapid = 0;
+	mlx->map = mlx->allmaps[mlx->mapid];
 	mlx->textures = load_textures(mlx);
+}
+
+t_map	**read_maps(int ac, char **av)
+{
+	int		fd[ac];
+	int		i;
+	t_map	**inp;
+
+	ac--;
+	av++;
+	if (!(inp = (t_map**)malloc(sizeof(t_map*) * (ac + 1))))
+		put_error("read_maps");
+	inp[ac] = NULL;
+	i = -1;
+	while (++i < ac)
+	{
+		fd[i] = open(av[i], O_RDONLY);
+		inp[i] = get_map_data(fd[i]);
+		if (!inp[i])
+		{
+			ft_putstr("Invalid map: ");
+			ft_putendl(av[i]);
+			exit(0);
+		}
+	}
+	i = -1;
+	while (++i < ac)
+		close(fd[i]);
+	return (inp);
 }
 
 int		main(int ac, char **av)
