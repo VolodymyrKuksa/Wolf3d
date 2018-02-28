@@ -18,7 +18,7 @@ void	keypress_event(int key, t_mlx *mlx)
 {
 	if (key == L_SHIFT)
 	{
-		mlx->pl->movespd = 10.0;
+		mlx->pl->movespd = P_RUNSPD;
 		mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
 		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 	}
@@ -65,7 +65,7 @@ void	keyrelease_event(int key, t_mlx *mlx)
 {
 	if (key == L_SHIFT)
 	{
-		mlx->pl->movespd = 5.5;
+		mlx->pl->movespd = P_MOVESPD;
 		mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
 		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 	}

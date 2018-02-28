@@ -42,6 +42,9 @@ void	reset_player(t_mlx *mlx)
 	mlx->pl->pos.y = mlx->map->p_pos.y * TS + TS / 2;
 	mlx->pl->dir.x = mlx->map->p_dir.x;
 	mlx->pl->dir.y = mlx->map->p_dir.y;
+	mlx->pl->l_dir.x = mlx->map->p_dir.x;
+	mlx->pl->l_dir.y = mlx->map->p_dir.y;
+	rotate(-40, &mlx->pl->l_dir);
 	mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
 	mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 }

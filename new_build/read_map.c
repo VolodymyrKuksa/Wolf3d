@@ -38,18 +38,18 @@ int		get_definition(t_map *m, int fd)
 
 	if (get_next_line(fd, &m->name) != 1 || !ft_strlen(m->name))
 		return (0);
-	if (get_next_line(fd, &line) != 1 || !ft_strlen(line))
+	if (get_next_line(fd, &line) != 1 || !ft_strlen(line)
+		|| !(sp = ft_strsplit(line, ' ')))
 		return (0);
-	sp = ft_strsplit(line, ' ');
 	free(line);
 	if (!is_all_digit(sp[0]) || !is_all_digit(sp[1]) || sp[2])
 		return (return_code(0, sp));
 	m->width = ft_atoi(sp[0]) + 2;
 	m->height = ft_atoi(sp[1]) + 2;
 	strclear2d(sp);
-	if (get_next_line(fd, &line) != 1 || !ft_strlen(line))
+	if (get_next_line(fd, &line) != 1 || !ft_strlen(line)
+		|| !(sp = ft_strsplit(line, ' ')))
 		return (0);
-	sp = ft_strsplit(line, ' ');
 	free(line);
 	if (!is_all_digit(sp[0]) || !is_all_digit(sp[1]) || ft_strlen(sp[2]) != 1
 		|| sp[3] || !parse_player_direction(m, sp))
@@ -138,7 +138,8 @@ t_map	*get_map_data(int fd)
 	m = NULL;
 	if (read(fd, NULL, 0) != 0 || !(m = (t_map*)malloc(sizeof(t_map))))
 		put_error("get_map_data");
-	if (!get_definition(m, fd) || !get_floor(m, fd) || !get_walls(m, fd))
+	if (!get_definition(m, fd) || !get_floor(m, fd) || !get_walls(m, fd)
+		|| !get_sprites(m, fd))
 	{
 		clear_map(m);
 		return (NULL);

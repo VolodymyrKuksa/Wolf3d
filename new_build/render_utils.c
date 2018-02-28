@@ -59,7 +59,7 @@ void	floor_cast(int j, t_mlx *mlx, t_ray r)
 		i = WNDH_H + ((double)TS / r.len.y * PPD + 0.5) / 2 - 1;
 	else
 		return ;
-	while (++i < WNDH)
+	while (++i <= WNDH)
 	{
 		dist = (double)TS_H / (i - WNDH_H) * PPD / cos(DTR(r.angle));
 		tc.x = (int)(r.dir.x * dist + mlx->pl->pos.x) % TS + 0.5;

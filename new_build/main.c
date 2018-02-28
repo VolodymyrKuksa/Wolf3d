@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <math.h>
 
 void	put_error(char *str)
 {
@@ -51,14 +52,15 @@ void	initialise_mlx(t_mlx *mlx, int ac)
 	mlx->img = m;
 	if (!(p = (t_player*)malloc(sizeof(t_player))))
 		put_error("initialise_mlx");
-	p->movespd = 5.5;
-	p->turnspd = 3.0;
+	p->movespd = P_MOVESPD;
+	p->turnspd = P_TURNSPD;
 	mlx->pl = p;
 	mlx->mapcount = ac - 1;
 	mlx->menu = 1;
 	mlx->mapid = 0;
 	mlx->map = mlx->allmaps[mlx->mapid];
 	mlx->textures = load_textures(mlx);
+	mlx->sprites = load_sprites(mlx);
 }
 
 t_map	**read_maps(int ac, char **av)

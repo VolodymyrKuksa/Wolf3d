@@ -37,6 +37,7 @@ int		return_code(int c, char **str)
 void	clear_map(t_map *m)
 {
 	free(m->name);
+	free(m->arr);
 	free(m);
 }
 

@@ -92,12 +92,19 @@ void	render(t_mlx *mlx, t_ray r)
 		cast(&r, mlx->map);
 		floor_cast(i, mlx, r);
 		if ((r.len.x < r.len.y && r.len.x > 3) || (r.len.x > 3 && r.len.y < 3))
+		{
+			mlx->zbuff[i] = r.len.x;
 			draw_wall_x(i, &r, mlx->img, &mlx->textures[r.tex_id.x]);
+		}
 		else if (r.len.y > 3)
+		{
+			mlx->zbuff[i] = r.len.y;
 			draw_wall_y(i, &r, mlx->img, &mlx->textures[r.tex_id.y]);
+		}
 		r.angle += r.d_angle;
 		rotate(r.d_angle, &r.dir);
 	}
+	render_sprites(mlx);
 }
 
 void	draw_world(t_mlx *mlx)

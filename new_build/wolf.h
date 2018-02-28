@@ -20,12 +20,17 @@
 # define WNDH_H			360
 # define TS				64
 # define TS_H			32
-# define PPD			930
+# define PPD			935
 
 # define FOV			60
 # define FOV_H			30
 
 # define TEX_COUNT		9
+# define SPR_COUNT		7
+
+# define P_MOVESPD		8.0
+# define P_RUNSPD		12.0
+# define P_TURNSPD		4.5
 
 # define RED			0xff0000
 # define GREEN			0x00ff00
@@ -42,9 +47,11 @@
 # define DARKGREY		0x545454
 # define DULLGREY		0x383838
 # define MENU_BACK		0x0e4038
+# define SPR_BACK		0x980088
 
 # define DTR(x)			((double)x * (M_PI / 180))
 # define ABS(a)			((a) < 0 ? -(a) : (a))
+# define RTD(b)			((b) * 180 / M_PI)
 
 typedef struct	s_ipt
 {
@@ -63,9 +70,23 @@ typedef struct	s_player
 	t_ipt		pos;
 	t_ipt		d_move;
 	t_dpt		dir;
+	t_dpt		l_dir;
 	double		movespd;
 	double		turnspd;
 }				t_player;
+
+typedef struct	s_sprite
+{
+	t_ipt		pos;
+	int			id;
+	int			i;
+	double		dist;
+	double		angle;
+	double		l_angle;
+	int			view;
+	int			dim;
+	int			dark;
+}				t_sprite;
 
 typedef struct	s_map
 {
@@ -77,6 +98,8 @@ typedef struct	s_map
 	t_dpt		p_dir;
 	int			floor;
 	int			ceiling;
+	int			nbspr;
+	t_sprite	*spr;
 }				t_map;
 
 typedef struct	s_image
@@ -129,7 +152,9 @@ typedef struct	s_mlx
 	t_ray		r;
 	t_keys		keys;
 
+	double		zbuff[WNDW];
 	t_image		*textures;
+	t_image		*sprites;
 
 	int			menu;
 }				t_mlx;
@@ -204,6 +229,7 @@ void			draw_world(t_mlx *mlx);
 **	render_utils
 */
 
+int				darken(int len);
 void			draw_wall_x(int j, t_ray *r, t_image *p, t_image *t);
 void			draw_wall_y(int j, t_ray *r, t_image *p, t_image *t);
 void			floor_cast(int j, t_mlx *mlx, t_ray r);
@@ -220,5 +246,24 @@ int				grad(int bc, int ec, int step);
 */
 
 t_image			*load_textures(t_mlx *m);
+
+/*
+**	load_sprites
+*/
+
+t_image			*load_sprites(t_mlx *m);
+int				get_sprites(t_map *m, int fd);
+
+/*
+**	load_sprites
+*/
+
+void			render_sprites(t_mlx *mlx);
+
+/*
+**	collisions
+*/
+
+int				collision_check(int x, int y, t_map *m);
 
 #endif

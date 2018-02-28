@@ -21,7 +21,7 @@ void	timeframe(void)
 	clock_t			t;
 
 	t = clock();
-	while (t - prev_frame < 20000)
+	while (t - prev_frame < 30000)
 		t = clock();
 	prev_frame = clock();
 }
