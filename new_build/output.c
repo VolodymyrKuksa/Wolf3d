@@ -12,6 +12,7 @@
 
 #include "wolf.h"
 #include "mlx.h"
+#include "colors.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -60,8 +61,10 @@ void	output(t_mlx *mlx)
 		}
 		mlx_clear_window(mlx->mlx, mlx->wnd);
 		fill_image(mlx->img, 0);
+		fill_image(mlx->mm, MM_BACK);
 		draw_world(mlx);
 		timeframe();
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
+		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->mm->img, MM_PX, MM_PY);
 	}
 }

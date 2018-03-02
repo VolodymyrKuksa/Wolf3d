@@ -37,24 +37,14 @@ void	initialise_keys(t_mlx *mlx)
 
 void	initialise_mlx(t_mlx *mlx, int ac)
 {
-	t_image		*m;
-	t_player	*p;
-
 	mlx->mlx = mlx_init();
 	mlx->wnd = mlx_new_window(mlx->mlx, WNDW, WNDH, "Wolf3d");
-	if (!(m = (t_image*)malloc(sizeof(t_image))))
+	mlx->img = image_init(WNDW, WNDH, mlx);
+	mlx->mm = image_init(MM_SIZE, MM_SIZE, mlx);
+	if (!(mlx->pl = (t_player*)malloc(sizeof(t_player))))
 		put_error("initialise_mlx");
-	m->img = mlx_new_image(mlx->mlx, WNDW, WNDH);
-	m->width = WNDW;
-	m->height = WNDH;
-	m->addr = (int*)mlx_get_data_addr(m->img, &m->bpp, &m->sl, &m->ed);
-	m->sl /= sizeof(int);
-	mlx->img = m;
-	if (!(p = (t_player*)malloc(sizeof(t_player))))
-		put_error("initialise_mlx");
-	p->movespd = P_MOVESPD;
-	p->turnspd = P_TURNSPD;
-	mlx->pl = p;
+	mlx->pl->movespd = P_MOVESPD;
+	mlx->pl->turnspd = P_TURNSPD;
 	mlx->mapcount = ac - 1;
 	mlx->menu = 1;
 	mlx->mapid = 0;

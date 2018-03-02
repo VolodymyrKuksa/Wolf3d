@@ -12,6 +12,7 @@
 
 #include "wolf.h"
 #include "mlx.h"
+#include "colors.h"
 #include <stdio.h>
 #include <math.h>
 

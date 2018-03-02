@@ -22,6 +22,12 @@
 # define TS_H			32
 # define PPD			935
 
+# define MM_SIZE		160
+# define MM_SIZE_H		80
+# define MM_PX			910
+# define MM_PY			550
+# define MM_MAGN		5.0
+
 # define FOV			60
 # define FOV_H			30
 
@@ -31,23 +37,6 @@
 # define P_MOVESPD		8.0
 # define P_RUNSPD		12.0
 # define P_TURNSPD		4.5
-
-# define RED			0xff0000
-# define GREEN			0x00ff00
-# define BLUE			0x0000ff
-# define YELLOW			0xffff00
-# define WHITE			0xffffff
-# define DARKRED		0x7b0000
-# define DULLRED		0x4b0000
-# define DARKGREEN		0x007b00
-# define DARKBLUE		0x00007b
-# define DULLBLUE		0x00004b
-# define DARKYELLOW		0xabab00
-# define GREY			0xababab
-# define DARKGREY		0x545454
-# define DULLGREY		0x383838
-# define MENU_BACK		0x0e4038
-# define SPR_BACK		0x980088
 
 # define DTR(x)			((double)x * (M_PI / 180))
 # define ABS(a)			((a) < 0 ? -(a) : (a))
@@ -152,6 +141,8 @@ typedef struct	s_mlx
 	t_ray		r;
 	t_keys		keys;
 
+	t_image		*mm;
+
 	double		zbuff[WNDW];
 	t_image		*textures;
 	t_image		*sprites;
@@ -213,8 +204,9 @@ int				update(void *data);
 **	image_utils
 */
 
+t_image			*image_init(int width, int height, t_mlx *mlx);
 int				img_coord(int x, int y, t_image *img);
-void			fill_image(t_image *img, int col);
+void			fill_image(t_image *img, unsigned int col);
 void			fill_image_tex(t_image *img, t_image *tex);
 void			image_grad_y(t_image *img, int bc, int ec);
 void			image_grad_x(t_image *img, int bc, int ec);
@@ -265,5 +257,20 @@ void			render_sprites(t_mlx *mlx);
 */
 
 int				collision_check(int x, int y, t_map *m);
+
+/*
+**	minimap
+*/
+
+void			mm_view(int i, t_ray r, t_image *mm);
+void			mm_walls(t_ipt pl, t_map *map, t_image *m);
+
+/*
+**	draw_line
+*/
+
+void			draw_line_img(t_dpt a, t_dpt b, int col, t_image *m);
+void			put_dot_d(t_dpt pt, int col, t_image *m);
+void			put_dot_i(t_ipt pt, int col, t_image *m);
 
 #endif

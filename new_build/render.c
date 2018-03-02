@@ -38,7 +38,7 @@ void	find_len_x(t_ray *r, t_map *map)
 	if (r->endx.y < 0 || r->endx.y > map->height * TS)
 		r->len.x = -1;
 	r->tex_id.x = intersect(1, *r, map);
-	r->tex_row.x = (int)(r->endx.y + 0.5) % TS;
+	r->tex_row.x = (int)r->endx.y % TS;
 	if (r->dir.x < 0)
 		r->tex_row.x = TS - 1 - r->tex_row.x;
 }
@@ -67,7 +67,7 @@ void	find_len_y(t_ray *r, t_map *map)
 	if (r->endy.x < 0 || r->endy.x > map->width * TS)
 		r->len.y = -1;
 	r->tex_id.y = intersect(0, *r, map);
-	r->tex_row.y = (int)(r->endy.x + 0.5) % TS;
+	r->tex_row.y = (int)r->endy.x % TS;
 	if (r->dir.y > 0)
 		r->tex_row.y = TS - 1 - r->tex_row.y;
 }
@@ -86,6 +86,7 @@ void	render(t_mlx *mlx, t_ray r)
 	int		i;
 
 	rotate(r.angle, &r.dir);
+	mm_walls(mlx->pl->pos, mlx->map, mlx->mm);
 	i = -1;
 	while (++i < WNDW)
 	{
@@ -101,6 +102,7 @@ void	render(t_mlx *mlx, t_ray r)
 			mlx->zbuff[i] = r.len.y;
 			draw_wall_y(i, &r, mlx->img, &mlx->textures[r.tex_id.y]);
 		}
+		mm_view(i, r, mlx->mm);
 		r.angle += r.d_angle;
 		rotate(r.d_angle, &r.dir);
 	}

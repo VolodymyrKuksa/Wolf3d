@@ -39,7 +39,6 @@ int		diagonal_collision_check(int x, int y, t_map *m)
 int		sprite_collision_check(int x, int y, t_map *m)
 {
 	t_dpt	vec;
-	double	dist;
 	int		j;
 
 	j = -1;
@@ -49,8 +48,7 @@ int		sprite_collision_check(int x, int y, t_map *m)
 			break ;
 		vec.x = m->spr[j].pos.x - x;
 		vec.y = m->spr[j].pos.y - y;
-		dist = sqrt(vec.x * vec.x + vec.y * vec.y);
-		if (dist < 32)
+		if (ABS(vec.x) < 25 && ABS(vec.y) < 25)
 			return (0);
 	}
 	return (1);

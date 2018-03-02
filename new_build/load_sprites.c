@@ -89,7 +89,10 @@ int			get_sprites(t_map *m, int fd)
 	int		i;
 
 	if (get_next_line(fd, &line) != 1 || !ft_strlen(line))
-		put_error("get_sprites");
+	{
+		m->nbspr = 0;
+		return (1);
+	}
 	sp = ft_strsplit(line, ' ');
 	free(line);
 	if (!is_all_digit(sp[0]) || sp[1])
