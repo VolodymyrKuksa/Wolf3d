@@ -18,6 +18,7 @@
 # define BLUE			0x000000ff
 # define YELLOW			0x00ffff00
 # define WHITE			0x00ffffff
+# define BLACK			0x00000000
 # define DARKRED		0x007b0000
 # define DULLRED		0x004b0000
 # define DARKGREEN		0x00007b00
@@ -31,5 +32,6 @@
 # define SPR_BACK		0x00980088
 # define MM_BACK		0x66ffffff
 # define MM_WALLCOL		0x33999999
+# define MM_VIEW		0x224BE8FF
 
 #endif

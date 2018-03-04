@@ -15,7 +15,8 @@
 
 void	put_dot_d(t_dpt pt, int col, t_image *m)
 {
-	if (pt.x > 0 && pt.x < m->width - 1 && pt.y > 0 && pt.y < m->height - 1)
+	if ((int)pt.x > 0 && (int)pt.x < m->width - 1
+	&& (int)pt.y > 0 && (int)pt.y < m->height - 1)
 		m->addr[img_coord(pt.x, pt.y, m)] = col;
 }
 

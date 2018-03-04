@@ -123,6 +123,7 @@ typedef struct	s_keys
 	int			l_arrow;
 	int			r_arrow;
 	int			l_shift;
+	int			z_key;
 	int			enter;
 	int			sp;
 	int			esc;
@@ -148,6 +149,7 @@ typedef struct	s_mlx
 	t_image		*sprites;
 
 	int			menu;
+	int			show_mm;
 }				t_mlx;
 
 /*
@@ -160,9 +162,9 @@ void			put_error(char *str);
 **	keyboard_input
 */
 
-int				key_down(int key, void *data);
-int				key_up(int key, void *data);
-int				check_update(void *data);
+int				key_down(int key, t_mlx *mlx);
+int				key_up(int key, t_mlx *mlx);
+int				check_update(t_mlx *mlx);
 
 /*
 **	read_map
@@ -262,7 +264,7 @@ int				collision_check(int x, int y, t_map *m);
 **	minimap
 */
 
-void			mm_view(int i, t_ray r, t_image *mm);
+void			mm_view(t_ray r, t_image *mm);
 void			mm_walls(t_ipt pl, t_map *map, t_image *m);
 
 /*

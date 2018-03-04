@@ -51,6 +51,7 @@ void	initialise_mlx(t_mlx *mlx, int ac)
 	mlx->map = mlx->allmaps[mlx->mapid];
 	mlx->textures = load_textures(mlx);
 	mlx->sprites = load_sprites(mlx);
+	mlx->show_mm = 1;
 }
 
 t_map	**read_maps(int ac, char **av)

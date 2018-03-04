@@ -22,4 +22,7 @@
 # define ESC		53
 # define L_SHIFT	257
 
+# define M_KEY		46
+# define Z_KEY		6
+
 #endif

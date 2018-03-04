@@ -86,7 +86,6 @@ void	render(t_mlx *mlx, t_ray r)
 	int		i;
 
 	rotate(r.angle, &r.dir);
-	mm_walls(mlx->pl->pos, mlx->map, mlx->mm);
 	i = -1;
 	while (++i < WNDW)
 	{
@@ -102,10 +101,12 @@ void	render(t_mlx *mlx, t_ray r)
 			mlx->zbuff[i] = r.len.y;
 			draw_wall_y(i, &r, mlx->img, &mlx->textures[r.tex_id.y]);
 		}
-		mm_view(i, r, mlx->mm);
+		if (mlx->show_mm)
+			mm_view(r, mlx->mm);
 		r.angle += r.d_angle;
 		rotate(r.d_angle, &r.dir);
 	}
+	mm_walls(mlx->pl->pos, mlx->map, mlx->mm);
 	render_sprites(mlx);
 }
 

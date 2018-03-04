@@ -65,6 +65,8 @@ void	output(t_mlx *mlx)
 		draw_world(mlx);
 		timeframe();
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
-		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->mm->img, MM_PX, MM_PY);
+		if (mlx->show_mm)
+			mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->mm->img,
+			MM_PX, MM_PY);
 	}
 }

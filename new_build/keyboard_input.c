@@ -42,22 +42,26 @@ void	keypress_event(int key, t_mlx *mlx)
 	}
 }
 
-int		key_down(int key, void *data)
+int		key_down(int key, t_mlx *mlx)
 {
-	if (key == U_ARROW && !((t_mlx*)data)->keys.d_arrow
-		&& !((t_mlx*)data)->menu)
-		((t_mlx*)data)->keys.u_arrow = 1;
-	else if (key == D_ARROW && !((t_mlx*)data)->keys.u_arrow
-		&& !((t_mlx*)data)->menu)
-		((t_mlx*)data)->keys.d_arrow = 1;
+	if (key == U_ARROW && !mlx->keys.d_arrow
+		&& !mlx->menu)
+		mlx->keys.u_arrow = 1;
+	else if (key == D_ARROW && !mlx->keys.u_arrow
+		&& !mlx->menu)
+		mlx->keys.d_arrow = 1;
 	else if (key == L_ARROW)
-		((t_mlx*)data)->keys.l_arrow = 1;
+		mlx->keys.l_arrow = 1;
 	else if (key == R_ARROW)
-		((t_mlx*)data)->keys.r_arrow = 1;
+		mlx->keys.r_arrow = 1;
 	else if (key == SP)
-		((t_mlx*)data)->keys.sp = 1;
+		mlx->keys.sp = 1;
+	else if (key == M_KEY)
+		mlx->show_mm = !mlx->show_mm;
+	else if (key == Z_KEY)
+		mlx->keys.z_key = 1;
 	else
-		keypress_event(key, ((t_mlx*)data));
+		keypress_event(key, mlx);
 	return (0);
 }
 
@@ -71,19 +75,21 @@ void	keyrelease_event(int key, t_mlx *mlx)
 	}
 }
 
-int		key_up(int key, void *data)
+int		key_up(int key, t_mlx *mlx)
 {
 	if (key == U_ARROW)
-		((t_mlx*)data)->keys.u_arrow = 0;
+		mlx->keys.u_arrow = 0;
 	else if (key == D_ARROW)
-		((t_mlx*)data)->keys.d_arrow = 0;
+		mlx->keys.d_arrow = 0;
 	else if (key == L_ARROW)
-		((t_mlx*)data)->keys.l_arrow = 0;
+		mlx->keys.l_arrow = 0;
 	else if (key == R_ARROW)
-		((t_mlx*)data)->keys.r_arrow = 0;
+		mlx->keys.r_arrow = 0;
 	else if (key == SP)
-		((t_mlx*)data)->keys.sp = 0;
+		mlx->keys.sp = 0;
+	else if (key == Z_KEY)
+		mlx->keys.z_key = 0;
 	else
-		keyrelease_event(key, ((t_mlx*)data));
+		keyrelease_event(key, mlx);
 	return (0);
 }

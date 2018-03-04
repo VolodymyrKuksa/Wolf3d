@@ -13,10 +13,10 @@
 #include "wolf.h"
 #include "colors.h"
 
-void	mm_view(int i, t_ray r, t_image *m)
+void	mm_view(t_ray r, t_image *m)
 {
-	static t_dpt	prev;
 	t_dpt			pt;
+	t_dpt			ct;
 
 	if ((r.len.x < r.len.y && r.len.x > 3) || (r.len.x > 3 && r.len.y < 3))
 	{
@@ -28,16 +28,9 @@ void	mm_view(int i, t_ray r, t_image *m)
 		pt.x = (r.endy.x - r.start.x) / MM_MAGN + MM_SIZE_H;
 		pt.y = (r.endy.y - r.start.y) / MM_MAGN + MM_SIZE_H;
 	}
-	if (i == 0 || i == WNDW - 1)
-	{
-		pt.x = MM_SIZE_H;
-		pt.y = MM_SIZE_H;
-		draw_line_img(prev, pt, YELLOW, m);
-	}
-	else
-		draw_line_img(prev, pt, YELLOW, m);
-	prev.x = pt.x;
-	prev.y = pt.y;
+	ct.x = MM_SIZE_H;
+	ct.y = MM_SIZE_H;
+	draw_line_img(ct, pt, MM_VIEW, m);
 }
 
 void	mm_walls(t_ipt pl, t_map *map, t_image *m)
@@ -64,7 +57,7 @@ void	mm_walls(t_ipt pl, t_map *map, t_image *m)
 				m->addr[img_coord(ic.x, ic.y, m)] = WHITE;
 			if (ic.x >= MM_SIZE_H - 2 && ic.x <= MM_SIZE_H + 2
 			&& ic.y >= MM_SIZE_H - 2 && ic.y <= MM_SIZE_H + 2)
-				put_dot_i(ic, YELLOW, m);
+				put_dot_i(ic, MM_VIEW, m);
 		}
 	}
 }
