@@ -14,15 +14,9 @@
 #include "key.h"
 #include <stdlib.h>
 
-void	keypress_event(int key, t_mlx *mlx)
+void	menu_controls(int key, t_mlx *mlx)
 {
-	if (key == L_SHIFT)
-	{
-		mlx->pl->movespd = P_RUNSPD;
-		mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
-		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
-	}
-	else if (key == ESC && !mlx->menu)
+	if (key == ESC && !mlx->menu)
 		mlx->menu = 1;
 	else if (key == ESC)
 		exit(1);
@@ -40,6 +34,26 @@ void	keypress_event(int key, t_mlx *mlx)
 		mlx->mapid = (mlx->mapid + 1) % mlx->mapcount;
 		mlx->map = mlx->allmaps[mlx->mapid];
 	}
+}
+
+void	keypress_event(int key, t_mlx *mlx)
+{
+	if (key == L_SHIFT && !mlx->keys.tilde)
+	{
+		mlx->pl->movespd = P_RUNSPD;
+		mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
+		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
+		mlx->keys.l_shift = 1;
+	}
+	else if (key == TILDE && !mlx->keys.l_shift)
+	{
+		mlx->pl->movespd = P_SLOWSPD;
+		mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
+		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
+		mlx->keys.tilde = 1;
+	}
+	else
+		menu_controls(key, mlx);
 }
 
 int		key_down(int key, t_mlx *mlx)
@@ -67,11 +81,13 @@ int		key_down(int key, t_mlx *mlx)
 
 void	keyrelease_event(int key, t_mlx *mlx)
 {
-	if (key == L_SHIFT)
+	if (key == L_SHIFT || key == TILDE)
 	{
 		mlx->pl->movespd = P_MOVESPD;
 		mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
 		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
+		mlx->keys.l_shift = 0;
+		mlx->keys.tilde = 0;
 	}
 }
 

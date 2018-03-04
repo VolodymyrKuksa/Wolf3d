@@ -49,6 +49,13 @@ t_image		*load_sprites(t_mlx *m)
 	t[4].img = mlx_xpm_file_to_image(m->mlx, "./sprites/s_cage.XPM", &w, &h);
 	t[5].img = mlx_xpm_file_to_image(m->mlx, "./sprites/knight.XPM", &w, &h);
 	t[6].img = mlx_xpm_file_to_image(m->mlx, "./sprites/skeleton.XPM", &w, &h);
+	t[7].img = mlx_xpm_file_to_image(m->mlx, "./sprites/g_barrel.XPM", &w, &h);
+	t[8].img = mlx_xpm_file_to_image(m->mlx, "./sprites/brush.XPM", &w, &h);
+	t[9].img = mlx_xpm_file_to_image(m->mlx, "./sprites/vase.XPM", &w, &h);
+	t[10].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold1.XPM", &w, &h);
+	t[11].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold2.XPM", &w, &h);
+	t[12].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold3.XPM", &w, &h);
+	t[13].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold4.XPM", &w, &h);
 	get_sprite_data(t);
 	return (t);
 }

@@ -36,7 +36,15 @@ int		diagonal_collision_check(int x, int y, t_map *m)
 	return (1);
 }
 
-int		sprite_collision_check(int x, int y, t_map *m)
+void	collect_sprite(t_player *pl, t_sprite *spr)
+{
+	if (spr->collected)
+		return ;
+	pl->gold += spr->gold;
+	spr->collected = 1;
+}
+
+int		sprite_collision_check(int x, int y, t_map *m, t_player *pl)
 {
 	t_dpt	vec;
 	int		j;
@@ -44,17 +52,17 @@ int		sprite_collision_check(int x, int y, t_map *m)
 	j = -1;
 	while (++j < m->nbspr)
 	{
-		if (m->spr[j].id >= 10)
-			break ;
 		vec.x = m->spr[j].pos.x - x;
 		vec.y = m->spr[j].pos.y - y;
-		if (ABS(vec.x) < 25 && ABS(vec.y) < 25)
+		if (ABS(vec.x) < 25 && ABS(vec.y) < 25 && !m->spr[j].walkable)
 			return (0);
+		else if (ABS(vec.x) < 25 && ABS(vec.y) < 25 && m->spr[j].collectable)
+			collect_sprite(pl, &(m->spr[j]));
 	}
 	return (1);
 }
 
-int		collision_check(int x, int y, t_map *m)
+int		collision_check(int x, int y, t_map *m, t_player *pl)
 {
 	t_ipt	mc;
 
@@ -75,6 +83,6 @@ int		collision_check(int x, int y, t_map *m)
 	if (m->arr[map_coord(mc.x, mc.y, m)])
 		return (0);
 	if (diagonal_collision_check(x, y, m))
-		return (sprite_collision_check(x, y, m));
+		return (sprite_collision_check(x, y, m, pl));
 	return (0);
 }

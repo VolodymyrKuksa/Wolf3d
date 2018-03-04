@@ -32,8 +32,9 @@
 # define FOV_H			30
 
 # define TEX_COUNT		9
-# define SPR_COUNT		7
+# define SPR_COUNT		14
 
+# define P_SLOWSPD		5.0
 # define P_MOVESPD		8.0
 # define P_RUNSPD		12.0
 # define P_TURNSPD		4.5
@@ -62,13 +63,17 @@ typedef struct	s_player
 	t_dpt		l_dir;
 	double		movespd;
 	double		turnspd;
+	int			gold;
 }				t_player;
 
 typedef struct	s_sprite
 {
 	t_ipt		pos;
 	int			id;
-	int			i;
+	int			collectable;
+	int			collected;
+	int			walkable;
+	int			gold;
 	double		dist;
 	double		angle;
 	double		l_angle;
@@ -123,6 +128,7 @@ typedef struct	s_keys
 	int			l_arrow;
 	int			r_arrow;
 	int			l_shift;
+	int			tilde;
 	int			z_key;
 	int			enter;
 	int			sp;
@@ -189,6 +195,7 @@ int				parse_player_direction(t_map *m, char **sp);
 int				is_all_digit(char *str);
 void			rotate(double d, t_dpt *pt);
 void			reset_player(t_mlx *mlx);
+void			reset_sprites(t_mlx *mlx);
 
 /*
 **	output
@@ -258,7 +265,7 @@ void			render_sprites(t_mlx *mlx);
 **	collisions
 */
 
-int				collision_check(int x, int y, t_map *m);
+int				collision_check(int x, int y, t_map *m, t_player *pl);
 
 /*
 **	minimap

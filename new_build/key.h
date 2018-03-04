@@ -24,5 +24,6 @@
 
 # define M_KEY		46
 # define Z_KEY		6
+# define TILDE		50
 
 #endif

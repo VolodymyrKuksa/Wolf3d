@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <stdio.h>//
 
 void	move_player(int d, t_player *pl, t_map *m)
 {
@@ -19,9 +18,9 @@ void	move_player(int d, t_player *pl, t_map *m)
 
 	tmp.x = pl->pos.x + d * pl->d_move.x;
 	tmp.y = pl->pos.y + d * pl->d_move.y;
-	if (collision_check(tmp.x, pl->pos.y, m))
+	if (collision_check(tmp.x, pl->pos.y, m, pl))
 		pl->pos.x = tmp.x;
-	if (collision_check(pl->pos.x, tmp.y, m))
+	if (collision_check(pl->pos.x, tmp.y, m, pl))
 		pl->pos.y = tmp.y;
 }
 
@@ -55,9 +54,9 @@ void	strafe_player(int left, t_player *pl, t_map *m)
 		tmp.x = pl->pos.x - pl->d_move.y;
 		tmp.y = pl->pos.y + pl->d_move.x;
 	}
-	if (collision_check(tmp.x, pl->pos.y, m))
+	if (collision_check(tmp.x, pl->pos.y, m, pl))
 		pl->pos.x = tmp.x;
-	if (collision_check(pl->pos.x, tmp.y, m))
+	if (collision_check(pl->pos.x, tmp.y, m, pl))
 		pl->pos.y = tmp.y;
 }
 

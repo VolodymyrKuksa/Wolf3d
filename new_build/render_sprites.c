@@ -89,7 +89,7 @@ void	draw_sprite(t_sprite spr, t_mlx *mlx)
 	int		i;
 	int		maxi;
 
-	if (!spr.view)
+	if (!spr.view || spr.dist < 20 || spr.collected)
 		return ;
 	spr.dim = (double)TS / spr.dist * PPD + 0.5;
 	i = PPD * tan(DTR(spr.angle));

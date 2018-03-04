@@ -45,6 +45,7 @@ void	initialise_mlx(t_mlx *mlx, int ac)
 		put_error("initialise_mlx");
 	mlx->pl->movespd = P_MOVESPD;
 	mlx->pl->turnspd = P_TURNSPD;
+	mlx->pl->gold = 0;
 	mlx->mapcount = ac - 1;
 	mlx->menu = 1;
 	mlx->mapid = 0;
