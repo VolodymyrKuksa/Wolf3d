@@ -47,6 +47,7 @@ void	reset_player(t_mlx *mlx)
 	rotate(-40, &mlx->pl->l_dir);
 	mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
 	mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
+	mlx->pl->gold = 0;
 }
 
 void	reset_sprites(t_mlx *mlx)
@@ -58,7 +59,7 @@ void	reset_sprites(t_mlx *mlx)
 	while (++i < mlx->map->nbspr)
 	{
 		tmp = &(mlx->map->spr[i]);
-		tmp->walkable = (tmp->id < 10 ? 0 : 1);
+		// tmp->walkable = (tmp->id < 10 ? 0 : 1);
 		tmp->collectable = (tmp->id < 10 ? 0 : 1);
 		if (tmp->collectable && tmp->id < 14)
 			tmp->gold = tmp->id % 9 * 10;

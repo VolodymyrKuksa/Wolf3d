@@ -67,7 +67,8 @@ void	output(t_mlx *mlx)
 		draw_world(mlx);
 		timeframe();
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
-		mlx_string_put(mlx->mlx, mlx->wnd, 20, 690, RED, ft_itoa(mlx->pl->gold));
+		mlx_string_put(mlx->mlx, mlx->wnd, 20, 690, RED,
+			ft_itoa(mlx->pl->gold));
 		if (mlx->show_mm)
 			mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->mm->img,
 			MM_PX, MM_PY);

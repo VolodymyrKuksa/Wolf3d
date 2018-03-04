@@ -69,19 +69,20 @@ int			get_sprite_line(t_map *m, int fd, int i)
 		|| !(sp = ft_strsplit(line, ' ')))
 		return (0);
 	free(line);
-	if (!is_all_digit(sp[0]) || !is_all_digit(sp[1]) || !is_all_digit(sp[2])
-		|| sp[3])
+	if (!is_all_digit(sp[0]) || !is_all_digit(sp[1]) || !is_all_digit(sp[2]))
 		return (0);
 	m->spr[i].id = ft_atoi(sp[0]);
 	m->spr[i].pos.x = (ft_atoi(sp[1]) + 1) * TS + TS_H;
 	m->spr[i].pos.y = (ft_atoi(sp[2]) + 1) * TS + TS_H;
+	if ((sp[3] && *sp[3] == 'w') || m->spr[i].id >= 10)
+		m->spr[i].walkable = 1;
+	else
+		m->spr[i].walkable = 0;
 	strclear2d(sp);
 	if (m->spr[i].id < 0 || m->spr[i].id >= SPR_COUNT)
 		return (0);
 	if (m->spr[i].pos.x < 0 || m->spr[i].pos.x >= m->width * TS
 		|| m->spr[i].pos.y < 0 || m->spr[i].pos.y >= m->height * TS)
-		return (0);
-	if (m->arr[map_coord(m->spr[i].pos.x / TS, m->spr[i].pos.y / TS, m)])
 		return (0);
 	if (m->spr[i].pos.x / TS == m->p_pos.x
 		&& m->spr[i].pos.y / TS == m->p_pos.y)

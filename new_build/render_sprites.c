@@ -13,7 +13,7 @@
 #include "wolf.h"
 #include "mlx.h"
 #include "colors.h"
-#include <stdio.h>
+#include <stdio.h>//
 #include <math.h>
 
 void	find_dist(t_player p, t_sprite *spr, int nbspr)
@@ -28,12 +28,15 @@ void	find_dist(t_player p, t_sprite *spr, int nbspr)
 		dx = spr[i].pos.x - p.pos.x;
 		dy = spr[i].pos.y - p.pos.y;
 		spr[i].dist = sqrt(dx * dx + dy * dy);
+		printf("i: %d, dist: %f\n", i, spr[i].dist);
 		spr[i].angle = (dx * p.dir.x + dy * p.dir.y) / spr[i].dist;
 		spr[i].l_angle = (dx * p.l_dir.x + dy * p.l_dir.y) / spr[i].dist;
-		spr[i].angle = RTD(acos(spr[i].angle));
-		spr[i].dist *= cos(DTR(spr[i].angle));
 		spr[i].l_angle = RTD(acos(spr[i].l_angle));
+		spr[i].angle = RTD(acos(spr[i].angle));
 		spr[i].view = (spr[i].angle <= 40 ? 1 : 0);
+		if (spr[i].view)
+			spr[i].dist *= cos(DTR(spr[i].angle));
+		printf("dist2: %f\n", spr[i].dist);
 	}
 }
 
@@ -53,6 +56,8 @@ void	sort_by_dist(t_sprite *spr, int *ind, int nbspr)
 			i = -1;
 		}
 	}
+	for (int a = 0; a < nbspr; a++)
+		printf("a: %d, dist: %f, id: %d\n", a, spr[ind[a]].dist, spr[ind[a]].id);
 }
 
 void	texture_sprite(int i, int maxi, t_mlx *mlx, t_sprite spr)
