@@ -59,7 +59,7 @@ void	keypress_event(int key, t_mlx *mlx)
 		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 		mlx->keys.tilde = 1;
 	}
-	else if (key == SP)
+	else if (key == SP || key == X_KEY)
 		check_secret(mlx);
 	else
 		menu_controls(key, mlx);
@@ -81,6 +81,8 @@ int		key_down(int key, t_mlx *mlx)
 		mlx->show_mm = !mlx->show_mm;
 	else if (key == Z_KEY)
 		mlx->keys.z_key = 1;
+	else if (key == H_KEY)
+		mlx->keys.h_key = !mlx->keys.h_key;
 	else
 		keypress_event(key, mlx);
 	return (0);

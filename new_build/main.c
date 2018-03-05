@@ -32,6 +32,7 @@ void	initialise_keys(t_mlx *mlx)
 	mlx->keys.r_arrow = 0;
 	mlx->keys.z_key = 0;
 	mlx->keys.tilde = 0;
+	mlx->keys.h_key = 0;
 }
 
 void	initialise_mlx(t_mlx *mlx, int ac)

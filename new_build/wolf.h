@@ -134,6 +134,7 @@ typedef struct	s_keys
 	int			l_shift;
 	int			tilde;
 	int			z_key;
+	int			h_key;
 }				t_keys;
 
 typedef struct	s_mlx
@@ -295,5 +296,13 @@ void			put_dot_i(t_ipt pt, int col, t_image *m);
 */
 
 void			check_secret(t_mlx *mlx);
+
+/*
+**	menues
+*/
+
+void			display_menu(t_mlx *mlx);
+void			display_stats(t_mlx *mlx);
+void			display_controls(t_mlx *mlx);
 
 #endif

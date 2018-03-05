@@ -26,6 +26,8 @@ void	rotate(double d, t_dpt *pt)
 
 int		is_all_digit(char *str)
 {
+	if (!str)
+		return (0);
 	while (*str)
 	{
 		if (!ft_isdigit(*str) && *str != '-')

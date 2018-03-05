@@ -28,52 +28,6 @@ void	timeframe(void)
 	prev_frame = clock();
 }
 
-void	display_menu(t_mlx *mlx)
-{
-	int				i;
-	int				y;
-
-	image_grad_y(mlx->img, MENU_BACK, 0);
-	y = 100;
-	i = -1;
-	mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
-	while (++i < mlx->mapcount)
-	{
-		mlx_string_put(mlx->mlx, mlx->wnd, 490, y,
-		(mlx->map == mlx->allmaps[i] ? WHITE : GREY), mlx->allmaps[i]->name);
-		y += 20;
-	}
-	mlx_string_put(mlx->mlx, mlx->wnd, 890, 698,
-		DARKGREY, "Press Esc to exit.");
-}
-
-void	display_stats(t_mlx *mlx)
-{
-	char	*s1;
-	char	*s2;
-	char	*tmp;
-
-	mlx->menu = 1;
-	image_grad_y(mlx->img, MENU_BACK, 0);
-	mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
-	mlx_string_put(mlx->mlx, mlx->wnd, 490, 200, RED, "LEVEL COMPLETE!");
-	mlx_string_put(mlx->mlx, mlx->wnd, 490, 240, WHITE, "LEVEL SCORE:");
-	s1 = ft_itoa(mlx->pl->gold);
-	tmp = ft_strjoin(s1, " / ");
-	free(s1);
-	s1 = ft_itoa(mlx->map->ts);
-	s2 = ft_strjoin(tmp, s1);
-	free(s1);
-	free(tmp);
-	mlx_string_put(mlx->mlx, mlx->wnd, 490, 280, WHITE, s2);
-	free(s2);
-	mlx_string_put(mlx->mlx, mlx->wnd, 790, 698,
-		DARKGREY, "Press Esc to go to main menu.");
-	if (mlx->mapid < mlx->mapcount - 1)
-		mlx_string_put(mlx->mlx, mlx->wnd, 5, 698,
-			DARKGREY, "Pess Enter to play next level.");
-}
-
 void	put_gold(t_mlx *mlx)
 {
 	char	*str;
@@ -81,6 +35,16 @@ void	put_gold(t_mlx *mlx)
 	str = ft_itoa(mlx->pl->gold);
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 690, RED, str);
 	free(str);
+}
+
+void	draw_hud(t_mlx *mlx)
+{
+	put_gold(mlx);
+	if (mlx->show_mm)
+		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->mm->img,
+		MM_PX, MM_PY);
+	if (mlx->keys.h_key)
+		display_controls(mlx);
 }
 
 void	output(t_mlx *mlx)
@@ -105,9 +69,6 @@ void	output(t_mlx *mlx)
 		draw_world(mlx);
 		timeframe();
 		mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->img->img, 0, 0);
-		put_gold(mlx);
-		if (mlx->show_mm)
-			mlx_put_image_to_window(mlx->mlx, mlx->wnd, mlx->mm->img,
-			MM_PX, MM_PY);
+		draw_hud(mlx);
 	}
 }
