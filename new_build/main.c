@@ -30,9 +30,8 @@ void	initialise_keys(t_mlx *mlx)
 	mlx->keys.d_arrow = 0;
 	mlx->keys.l_arrow = 0;
 	mlx->keys.r_arrow = 0;
-	mlx->keys.enter = 0;
-	mlx->keys.sp = 0;
-	mlx->keys.esc = 0;
+	mlx->keys.z_key = 0;
+	mlx->keys.tilde = 0;
 }
 
 void	initialise_mlx(t_mlx *mlx, int ac)
@@ -46,6 +45,7 @@ void	initialise_mlx(t_mlx *mlx, int ac)
 	mlx->pl->movespd = P_MOVESPD;
 	mlx->pl->turnspd = P_TURNSPD;
 	mlx->pl->gold = 0;
+	mlx->pl->endlvl = 0;
 	mlx->mapcount = ac - 1;
 	mlx->menu = 1;
 	mlx->mapid = 0;
@@ -71,12 +71,8 @@ t_map	**read_maps(int ac, char **av)
 	{
 		fd[i] = open(av[i], O_RDONLY);
 		inp[i] = get_map_data(fd[i]);
-		if (!inp[i])
-		{
-			ft_putstr("Invalid map: ");
-			ft_putendl(av[i]);
-			exit(0);
-		}
+		inp[i]->arr = NULL;
+		inp[i]->scr = NULL;
 	}
 	i = -1;
 	while (++i < ac)

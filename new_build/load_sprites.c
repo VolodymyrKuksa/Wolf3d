@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include "get_next_line.h"
 #include "libft.h"
-#include <stdio.h>
 
 void		get_sprite_data(t_image *t)
 {
@@ -56,6 +55,7 @@ t_image		*load_sprites(t_mlx *m)
 	t[11].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold2.XPM", &w, &h);
 	t[12].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold3.XPM", &w, &h);
 	t[13].img = mlx_xpm_file_to_image(m->mlx, "./sprites/gold4.XPM", &w, &h);
+	t[14].img = mlx_xpm_file_to_image(m->mlx, "./sprites/endlvl.XPM", &w, &h);
 	get_sprite_data(t);
 	return (t);
 }
@@ -74,10 +74,9 @@ int			get_sprite_line(t_map *m, int fd, int i)
 	m->spr[i].id = ft_atoi(sp[0]);
 	m->spr[i].pos.x = (ft_atoi(sp[1]) + 1) * TS + TS_H;
 	m->spr[i].pos.y = (ft_atoi(sp[2]) + 1) * TS + TS_H;
+	m->spr[i].walkable = 0;
 	if ((sp[3] && *sp[3] == 'w') || m->spr[i].id >= 10)
 		m->spr[i].walkable = 1;
-	else
-		m->spr[i].walkable = 0;
 	strclear2d(sp);
 	if (m->spr[i].id < 0 || m->spr[i].id >= SPR_COUNT)
 		return (0);

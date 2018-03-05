@@ -40,6 +40,11 @@ void	collect_sprite(t_player *pl, t_sprite *spr)
 {
 	if (spr->collected)
 		return ;
+	if (spr->id == 14)
+	{
+		pl->endlvl = 1;
+		return ;
+	}
 	pl->gold += spr->gold;
 	spr->collected = 1;
 }

@@ -13,7 +13,6 @@
 #include "libft.h"
 #include "wolf.h"
 #include <math.h>
-#include <stdio.h>
 
 void	rotate(double d, t_dpt *pt)
 {
@@ -29,7 +28,7 @@ int		is_all_digit(char *str)
 {
 	while (*str)
 	{
-		if (!ft_isdigit(*str))
+		if (!ft_isdigit(*str) && *str != '-')
 			return (0);
 		str++;
 	}
@@ -48,6 +47,7 @@ void	reset_player(t_mlx *mlx)
 	mlx->pl->d_move.x = mlx->pl->dir.x * mlx->pl->movespd;
 	mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 	mlx->pl->gold = 0;
+	mlx->pl->endlvl = 0;
 }
 
 void	reset_sprites(t_mlx *mlx)
@@ -55,14 +55,37 @@ void	reset_sprites(t_mlx *mlx)
 	int			i;
 	t_sprite	*tmp;
 
+	mlx->map->ts = 0;
 	i = -1;
 	while (++i < mlx->map->nbspr)
 	{
 		tmp = &(mlx->map->spr[i]);
-		// tmp->walkable = (tmp->id < 10 ? 0 : 1);
 		tmp->collectable = (tmp->id < 10 ? 0 : 1);
 		if (tmp->collectable && tmp->id < 14)
+		{
 			tmp->gold = tmp->id % 9 * 10;
+			mlx->map->ts += tmp->gold;
+		}
 		tmp->collected = 0;
+	}
+}
+
+void	reset_map(t_map *map)
+{
+	int		i;
+	int		maxi;
+
+	if (map->arr)
+		free(map->arr);
+	if (map->scr)
+		free(map->scr);
+	map->arr = new_map_array(map);
+	map->scr = new_map_array(map);
+	maxi = map->height * map->width;
+	i = -1;
+	while (++i < maxi)
+	{
+		map->arr[i] = ABS(map->orig[i]);
+		map->scr[i] = (map->orig[i] > 0 ? map->orig[i] : 0);
 	}
 }

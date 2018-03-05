@@ -16,12 +16,19 @@
 
 void	menu_controls(int key, t_mlx *mlx)
 {
-	if (key == ESC && !mlx->menu)
+	if (key == ESC && mlx->pl->endlvl)
+	{
+		mlx->pl->endlvl = 0;
+		reset_player(mlx);
+		reset_sprites(mlx);
+		reset_map(mlx->map);
+	}
+	else if (key == ESC && !mlx->menu)
 		mlx->menu = 1;
 	else if (key == ESC)
 		exit(1);
 	else if (key == ENTER && mlx->menu)
-		mlx->menu = 0;
+		enter_key(mlx);
 	else if (mlx->menu && key == U_ARROW)
 	{
 		mlx->mapid -= 1;
@@ -52,6 +59,8 @@ void	keypress_event(int key, t_mlx *mlx)
 		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 		mlx->keys.tilde = 1;
 	}
+	else if (key == SP)
+		check_secret(mlx);
 	else
 		menu_controls(key, mlx);
 }
@@ -68,8 +77,6 @@ int		key_down(int key, t_mlx *mlx)
 		mlx->keys.l_arrow = 1;
 	else if (key == R_ARROW)
 		mlx->keys.r_arrow = 1;
-	else if (key == SP)
-		mlx->keys.sp = 1;
 	else if (key == M_KEY)
 		mlx->show_mm = !mlx->show_mm;
 	else if (key == Z_KEY)
@@ -101,8 +108,6 @@ int		key_up(int key, t_mlx *mlx)
 		mlx->keys.l_arrow = 0;
 	else if (key == R_ARROW)
 		mlx->keys.r_arrow = 0;
-	else if (key == SP)
-		mlx->keys.sp = 0;
 	else if (key == Z_KEY)
 		mlx->keys.z_key = 0;
 	else

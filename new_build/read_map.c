@@ -77,12 +77,12 @@ int		get_wall_row(t_map *m, int fd, int i)
 	j = -1;
 	while (++j < m->width)
 	{
-		if (j == 0 || j == m->width - 1)
-			id = 1;
-		else if (!sp[j - 1] || !is_all_digit(sp[j - 1])
-			|| (id = atoi(sp[j - 1]) % (TEX_COUNT + 1)) < 0)
+		id = 1;
+		if (j > 0 && j < m->width - 1 && is_all_digit(sp[j - 1]))
+			id = ft_atoi(sp[j - 1]);
+		else if (j > 0 && j < m->width - 1)
 			return (0);
-		m->arr[map_coord(j, i, m)] = id;
+		m->orig[map_coord(j, i, m)] = id;
 	}
 	strclear2d(sp);
 	return (j == m->width ? 1 : 0);
@@ -93,7 +93,7 @@ int		get_walls(t_map *m, int fd)
 	int		i;
 	int		j;
 
-	if (!(m->arr = (int*)malloc(sizeof(int) * m->width * m->height)))
+	if (!(m->orig = (int*)malloc(sizeof(int) * m->width * m->height)))
 		put_error("get_walls");
 	i = -1;
 	while (++i < m->height)
@@ -102,12 +102,12 @@ int		get_walls(t_map *m, int fd)
 		{
 			j = -1;
 			while (++j < m->width)
-				m->arr[map_coord(j, i, m)] = 1;
+				m->orig[map_coord(j, i, m)] = 1;
 		}
 		else if (!get_wall_row(m, fd, i))
 			return (0);
 	}
-	if (i != m->height || m->arr[map_coord(m->p_pos.x, m->p_pos.y, m)])
+	if (i != m->height || m->orig[map_coord(m->p_pos.x, m->p_pos.y, m)])
 		return (0);
 	return (1);
 }
@@ -141,8 +141,8 @@ t_map	*get_map_data(int fd)
 	if (!get_definition(m, fd) || !get_floor(m, fd) || !get_walls(m, fd)
 		|| !get_sprites(m, fd))
 	{
-		clear_map(m);
-		return (NULL);
+		ft_putendl("Invalid map");
+		exit(0);
 	}
 	return (m);
 }

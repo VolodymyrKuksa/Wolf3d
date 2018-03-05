@@ -34,11 +34,13 @@ int		return_code(int c, char **str)
 	return (c);
 }
 
-void	clear_map(t_map *m)
+int		*new_map_array(t_map *map)
 {
-	free(m->name);
-	free(m->arr);
-	free(m);
+	int		*tmp;
+
+	if (!(tmp = (int*)malloc(sizeof(int) * map->width * map->height)))
+		put_error("new_map_array");
+	return (tmp);
 }
 
 int		parse_player_direction(t_map *m, char **sp)
