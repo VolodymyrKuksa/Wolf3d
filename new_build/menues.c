@@ -65,19 +65,19 @@ void	display_stats(t_mlx *mlx)
 void	display_controls(t_mlx *mlx)
 {
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 20, YELLOW,
-		"Arrows   -> move and look around.");
+		"Arrows ......... move and look around.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 40, YELLOW,
-		"L_Shift    -> run.");
+		"L_Shift ........ run.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 60, YELLOW,
-		"~          -> slow walk.");
+		"~ .............. slow walk.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 80, YELLOW,
-		"Z + Arrows -> strafe.");
+		"Z + Arrows ..... strafe.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 100, YELLOW,
-		"X / Space  -> activate hidden walls.");
+		"X / Space ...... activate hidden walls.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 120, YELLOW,
-		"M          -> show / hide minimap.");
+		"M .............. show / hide minimap.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 140, YELLOW,
-		"Esc        -> go to main menu.");
+		"Esc ............ go to main menu.");
 	mlx_string_put(mlx->mlx, mlx->wnd, 20, 160, YELLOW,
-		"H          -> show / hide controls.");
+		"H .............. show / hide controls.");
 }
