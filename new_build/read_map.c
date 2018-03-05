@@ -62,25 +62,23 @@ int		get_definition(t_map *m, int fd)
 int		get_wall_row(t_map *m, int fd, int i)
 {
 	int		j;
-	int		gnlret;
 	int		id;
 	char	*line;
 	char	**sp;
 
-	gnlret = get_next_line(fd, &line);
-	if (gnlret == -1)
-		put_error("get_wall_row");
-	if (!gnlret)
+	if (get_next_line(fd, &line) != 1)
 		return (0);
 	sp = ft_strsplit(line, ' ');
 	free(line);
 	j = -1;
 	while (++j < m->width)
 	{
-		id = 1;
-		if (j > 0 && j < m->width - 1 && is_all_digit(sp[j - 1]))
+		if (j == 0 || j == m->width - 1)
+			id = 1;
+		else if (is_all_digit(sp[j - 1]))
 			id = ft_atoi(sp[j - 1]);
-		else if (j > 0 && j < m->width - 1)
+		if ((j > 0 && j < m->width - 1 && !is_all_digit(sp[j - 1]))
+			|| ABS(id) > TEX_COUNT)
 			return (0);
 		m->orig[map_coord(j, i, m)] = id;
 	}

@@ -37,7 +37,7 @@ void	find_len_x(t_ray *r, t_map *map)
 	r->len.x = sqrt(dx * dx + dy * dy) * r->distortion;
 	if (r->endx.y < 0 || r->endx.y > map->height * TS)
 		r->len.x = -1;
-	r->tex_id.x = intersect(1, *r, map);
+	r->tex_id.x = get_texture_id(1, r, map);
 	r->tex_row.x = (int)r->endx.y % TS;
 	if (r->dir.x < 0)
 		r->tex_row.x = TS - 1 - r->tex_row.x;
@@ -66,7 +66,7 @@ void	find_len_y(t_ray *r, t_map *map)
 	r->len.y = sqrt(dx * dx + dy * dy) * r->distortion;
 	if (r->endy.x < 0 || r->endy.x > map->width * TS)
 		r->len.y = -1;
-	r->tex_id.y = intersect(0, *r, map);
+	r->tex_id.y = get_texture_id(0, r, map);
 	r->tex_row.y = (int)r->endy.x % TS;
 	if (r->dir.y > 0)
 		r->tex_row.y = TS - 1 - r->tex_row.y;

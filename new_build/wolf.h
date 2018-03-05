@@ -31,7 +31,7 @@
 # define FOV			60
 # define FOV_H			30
 
-# define TEX_COUNT		9
+# define TEX_COUNT		10
 # define SPR_COUNT		15
 
 # define P_SLOWSPD		5.0
@@ -304,5 +304,11 @@ void			check_secret(t_mlx *mlx);
 void			display_menu(t_mlx *mlx);
 void			display_stats(t_mlx *mlx);
 void			display_controls(t_mlx *mlx);
+
+/*
+**	wall_texturing
+*/
+
+int				get_texture_id(int h, t_ray *r, t_map *m);
 
 #endif

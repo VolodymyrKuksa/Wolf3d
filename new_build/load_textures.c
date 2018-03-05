@@ -19,7 +19,7 @@ void		get_texture_data(t_image *t)
 	int		i;
 
 	i = 0;
-	while (++i <= TEX_COUNT)
+	while (++i < TEX_COUNT)
 	{
 		t[i].width = TS;
 		t[i].height = TS;
