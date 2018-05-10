@@ -1,0 +1,7 @@
+libft/*.o
+libft/.DS_Store
+libft/libft.a
+src/.DS_Store
+Wolf3d
+obj/
+.DS_Store

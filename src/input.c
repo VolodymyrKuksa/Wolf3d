@@ -6,7 +6,7 @@
 /*   By: vkuksa <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 10:50:27 by vkuksa            #+#    #+#             */
-/*   Updated: 2018/03/06 10:50:32 by vkuksa           ###   ########.fr       */
+/*   Updated: 2018/05/10 13:02:21 by vkuksa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	menu_controls(int key, t_mlx *mlx)
 		exit(1);
 	else if (key == ENTER && mlx->menu)
 		enter_key(mlx);
-	else if (mlx->menu && key == U_ARROW)
+	else if (mlx->menu && !mlx->pl->endlvl && key == U_ARROW)
 	{
 		mlx->mapid -= 1;
 		if (mlx->mapid < 0)
 			mlx->mapid += mlx->mapcount;
 		mlx->map = mlx->allmaps[mlx->mapid];
 	}
-	else if (mlx->menu && key == D_ARROW)
+	else if (mlx->menu && !mlx->pl->endlvl && key == D_ARROW)
 	{
 		mlx->mapid = (mlx->mapid + 1) % mlx->mapcount;
 		mlx->map = mlx->allmaps[mlx->mapid];
@@ -59,7 +59,7 @@ void	keypress_event(int key, t_mlx *mlx)
 		mlx->pl->d_move.y = mlx->pl->dir.y * mlx->pl->movespd;
 		mlx->keys.tilde = 1;
 	}
-	else if (key == SP || key == X_KEY)
+	else if ((key == SP || key == X_KEY) && !mlx->menu)
 		check_secret(mlx);
 	else
 		menu_controls(key, mlx);
