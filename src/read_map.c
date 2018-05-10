@@ -6,7 +6,7 @@
 /*   By: vkuksa <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 08:57:51 by vkuksa            #+#    #+#             */
-/*   Updated: 2018/02/21 08:57:53 by vkuksa           ###   ########.fr       */
+/*   Updated: 2018/05/10 13:30:53 by vkuksa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int		get_definition(t_map *m, int fd)
 		|| !(sp = ft_strsplit(line, ' ')))
 		return (0);
 	free(line);
-	if (!is_all_digit(sp[0]) || !is_all_digit(sp[1]) || ft_strlen(sp[2]) != 1
-		|| sp[3] || !parse_player_direction(m, sp))
+	if (!is_all_digit(sp[0]) || !is_all_digit(sp[1]) || !sp[2] ||
+		ft_strlen(sp[2]) != 1 || sp[3] || !parse_player_direction(m, sp))
 		return (return_code(0, sp));
 	m->p_pos.x = ft_atoi(sp[0]) + 1;
 	m->p_pos.y = ft_atoi(sp[1]) + 1;
