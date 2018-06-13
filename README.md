@@ -19,8 +19,18 @@ Or enter `sh run.sh` to run all basic maps.
 - Minimap
 - Secret walls
 - Collectables
+- Classic Wolfenstein 3d textures
 
 ## More Screenshots
+Main menue:  
+![screeenshot](images/Screen_Shot_7.png)  
+
+Press `H` to toggle help:  
+![screeenshot](images/Screen_Shot_8.png)  
+
+End level menue:    
+![screeenshot](images/Screen_Shot_9.png)  
+
 ![screeenshot](images/Screen_Shot_2.png)  
 
 ![screeenshot](images/Screen_Shot_3.png)  
