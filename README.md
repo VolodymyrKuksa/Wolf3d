@@ -1,6 +1,7 @@
 # Wolf3d
 Wolf3d is a pseudo-3d game. The project was developed as a part of 42 school program.
-It parses maps from files, visualizes them using ray-casting technique and applyes simple game logic.
+It parses maps from files, visualizes them using ray-casting technique and applyes simple game logic.  
+*Note:* this project was made for MacOS.
 
 ![screeenshot](images/Screen_Shot_1.png)
 
@@ -11,7 +12,7 @@ This will build executable called Wolf3d.
 ## Usage
 `./Wolf3d [filename] ...`  
 `filename` must contain path to a valid map.  
-Or enter `sh run.sh` to run all basic maps.
+Or enter `sh run.sh` to run all basic maps.  
 
 ## Features
 - Main menu
