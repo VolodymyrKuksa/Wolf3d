@@ -14,7 +14,7 @@ This will build executable called Wolf3d.
 Or enter `sh run.sh` to run all basic maps.
 
 ## Features
-- Main menue
+- Main menu
 - Ability to open multiple maps
 - Minimap
 - Secret walls
@@ -22,13 +22,13 @@ Or enter `sh run.sh` to run all basic maps.
 - Classic Wolfenstein 3d textures
 
 ## More Screenshots
-Main menue:  
+Main menu:  
 ![screeenshot](images/Screen_Shot_7.png)  
 
 Press `H` to toggle help:  
 ![screeenshot](images/Screen_Shot_8.png)  
 
-End level menue:    
+End level menu:  
 ![screeenshot](images/Screen_Shot_9.png)  
 
 ![screeenshot](images/Screen_Shot_2.png)  
