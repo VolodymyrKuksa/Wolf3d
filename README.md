@@ -14,8 +14,11 @@ This will build executable called Wolf3d.
 Or enter `sh run.sh` to run all basic maps.
 
 ## More Screenshots
-![screeenshot](images/Screen_Shot_2.png)
-![screeenshot](images/Screen_Shot_3.png)
-![screeenshot](images/Screen_Shot_4.png)
-![screeenshot](images/Screen_Shot_5.png)
-![screeenshot](images/Screen_Shot_6.png)
+![screeenshot](images/Screen_Shot_2.png)  
+
+![screeenshot](images/Screen_Shot_3.png)  
+
+Secret walls can be opened by pressing `Spase Bar` or `X`  
+![screeenshot](images/Screen_Shot_4.png)  
+![screeenshot](images/Screen_Shot_5.png)  
+![screeenshot](images/Screen_Shot_6.png)  
