@@ -13,12 +13,20 @@ This will build executable called Wolf3d.
 `filename` must contain path to a valid map.  
 Or enter `sh run.sh` to run all basic maps.
 
+## Features
+- Main menue
+- Ability to open multiple maps
+- Minimap
+- Secret walls
+- Collectables
+
 ## More Screenshots
 ![screeenshot](images/Screen_Shot_2.png)  
 
 ![screeenshot](images/Screen_Shot_3.png)  
 
 Secret walls can be opened by pressing `Spase Bar` or `X`  
-![screeenshot](images/Screen_Shot_4.png)  
+![screeenshot](images/Screen_Shot_4.png)
 ![screeenshot](images/Screen_Shot_5.png)  
+
 ![screeenshot](images/Screen_Shot_6.png)  
