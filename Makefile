@@ -19,11 +19,12 @@ OBJ_DIR	= ./obj/
 INC_DIR = ./includes/
 LFT_DIR = ./libft/
 LFT_INC_DIR = $(LFT_DIR)includes/
+MLX_DIR = ./minilibx/
 
-LMX = -lmlx -framework OpenGL -framework AppKit
+LMX = -lmlx -L $(MLX_DIR) -framework OpenGL -framework AppKit
 CC = gcc
 CC_FLAGS = -c -Wall -Werror -Wextra
-INC = -I $(INC_DIR) -I $(LFT_INC_DIR)
+INC = -I $(INC_DIR) -I $(LFT_INC_DIR) -I $(MLX_DIR)
 
 C_FILES =	collisions.c\
 			draw_line.c\
@@ -53,6 +54,7 @@ OBJ = $(addprefix $(OBJ_DIR), $(C_FILES:.c=.o))
 all: $(NAME)
 
 $(NAME): $(LFT) $(OBJ_DIR) $(OBJ)
+	make -C $(MLX_DIR)
 	$(CC) $(OBJ) $(LFT) $(LMX) -o $(NAME)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
@@ -67,6 +69,7 @@ $(LFT):
 clean:
 	rm -rf $(OBJ_DIR)
 	make -C $(LFT_DIR) clean
+	make -C $(MLX_DIR) clean
 
 fclean: clean
 	rm -rf $(NAME)
