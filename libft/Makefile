@@ -29,7 +29,7 @@ ft_mat_scalar_mult.c ft_mat_scalar_div.c ft_mat_scalar_add.c \
 ft_clear_matrix.c
 OBJ = $(SRC:.c=.o) 
 CC = gcc
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Wextra
 INC = ./libft.h
 
 all: $(NAME)

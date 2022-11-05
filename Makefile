@@ -23,7 +23,7 @@ MLX_DIR = ./minilibx/
 
 LMX = -lmlx -L $(MLX_DIR) -framework OpenGL -framework AppKit
 CC = gcc
-CC_FLAGS = -c -Wall -Werror -Wextra
+CC_FLAGS = -c -Wall -Wextra
 INC = -I $(INC_DIR) -I $(LFT_INC_DIR) -I $(MLX_DIR)
 
 C_FILES =	collisions.c\
